@@ -1,0 +1,149 @@
+/* src/components/RecipeStep.module.css */
+.recipeStepContainer {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: #f8f8f8;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #eaeaea;
+}
+
+.menuButton, .settingsButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.menuIcon, .settingsIcon {
+  width: 24px;
+  height: 24px;
+  fill: #333;
+}
+
+.stepIndicator {
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+}
+
+.card {
+  background-color: #fff;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.title {
+  font-size: 22px;
+  font-weight: 600;
+  text-align: center;
+  margin: 0 0 20px 0;
+  color: #333;
+}
+
+.imageContainer {
+  width: 100%;
+  max-width: 400px;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.image {
+  width: 100%;
+  aspect-ratio: 4/3;
+  object-fit: cover;
+}
+
+.description {
+  font-size: 16px;
+  line-height: 1.6;
+  margin-bottom: 25px;
+  color: #333;
+  text-align: center;
+  max-width: 500px;
+}
+
+.timerContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.timerIcon {
+  width: 28px;
+  height: 28px;
+  fill: #555;
+  margin-bottom: 5px;
+}
+
+.timerText {
+  font-size: 14px;
+  color: #555;
+}
+
+.navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  background-color: #ffffff;
+  border-top: 1px solid #eaeaea;
+}
+
+.navButton {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #333;
+  padding: 5px 15px;
+}
+
+.navButton:disabled {
+  color: #ccc;
+  cursor: not-allowed;
+}
+
+.flipText {
+  font-size: 14px;
+  color: #777;
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .recipeStepContainer {
+    border-radius: 0;
+    box-shadow: none;
+  }
+  
+  .card {
+    padding: 15px;
+  }
+  
+  .title {
+    font-size: 20px;
+  }
+  
+  .description {
+    font-size: 15px;
+  }
+}

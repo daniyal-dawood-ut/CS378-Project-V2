@@ -1,0 +1,34 @@
+/* src/app/page.module.css */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  padding: 30px 20px;
+  background-color: #F0EAD6;
+}
+
+.title {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 30px;
+  color: #333;
+  text-align: center;
+}
+
+.stepWrapper {
+  width: 100%;
+  max-width: 600px;
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding: 15px 0;
+  }
+  
+  .title {
+    font-size: 24px;
+    margin-bottom: 20px;
+    padding: 0 15px;
+  }
+}
