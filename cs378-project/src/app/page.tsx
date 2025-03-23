@@ -3,6 +3,7 @@
 
 import { useState } from 'react';
 import RecipeStep from '../components/RecipeStep';
+import Ingredients from '../components/Ingredients';
 import styles from '../styles/page.module.css';
 
 // Sample recipe data
@@ -24,6 +25,7 @@ const recipeSteps = [
 ];
 
 export default function Home() {
+  const [currentView, setCurrentView] = useState<'ingredients' | 'steps'>('ingredients');
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   
   const currentStep = recipeSteps[currentStepIndex];
@@ -46,22 +48,32 @@ export default function Home() {
     console.log("Flip card");
   };
   
+  const handleContinueToInstructions = () => {
+    setCurrentView('steps');
+  };
+  
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>Banana Bread Recipe</h1>
-      <div className={styles.stepWrapper}>
-        <RecipeStep
-          stepNumber={currentStep.id}
-          totalSteps={totalSteps}
-          title={currentStep.title}
-          description={currentStep.description}
-          imageUrl={currentStep.imageUrl}
-          timerDuration={currentStep.timerDuration}
-          onNext={handleNext}
-          onPrevious={handlePrevious}
-          onFlip={handleFlip}
-        />
-      </div>
+      {currentView === 'ingredients' ? (
+        <Ingredients onContinueToInstructions={handleContinueToInstructions} />
+      ) : (
+        <>
+          <h1 className={styles.title}>Hummingbird Muffins</h1>
+          <div className={styles.stepWrapper}>
+            <RecipeStep
+              stepNumber={currentStep.id}
+              totalSteps={totalSteps}
+              title={currentStep.title}
+              description={currentStep.description}
+              imageUrl={currentStep.imageUrl}
+              timerDuration={currentStep.timerDuration}
+              onNext={handleNext}
+              onPrevious={handlePrevious}
+              onFlip={handleFlip}
+            />
+          </div>
+        </>
+      )}
     </div>
   );
 }
