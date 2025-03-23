@@ -1,0 +1,127 @@
+{
+  "recipes": [
+    {
+      "name": "Spaghetti Carbonara",
+      "ingredients": [
+        {
+          "item": "Spaghetti",
+          "quantity": "2 cups",
+          "substitutions": [
+            { "substitution": "Gluten-free spaghetti" }
+          ]
+        },
+        {
+          "item": "Egg yolks",
+          "quantity": "3 tbsp",
+          "substitutions": [
+            { "substitution": "Silken tofu" }
+          ]
+        },
+        {
+          "item": "Pancetta",
+          "quantity": "1/2 cup",
+          "substitutions": [
+            { "substitution": "Turkey bacon" },
+            { "substitution": "Mushrooms" }
+          ]
+        },
+        {
+          "item": "Parmesan cheese",
+          "quantity": "1/2 cup",
+          "substitutions": [
+            { "substitution": "Nutritional yeast" }
+          ]
+        },
+        {
+          "item": "Black pepper",
+          "quantity": "1 tsp"
+        },
+        {
+          "item": "Salt",
+          "quantity": "to taste"
+        },
+        {
+          "item": "Olive oil",
+          "quantity": "1 tbsp"
+        }
+      ],
+      "steps": [
+        "Boil salted water and cook spaghetti until al dente, reserving ½ cup pasta water.",
+        "Fry pancetta in olive oil until crispy.",
+        "Whisk egg yolks with grated Parmesan and black pepper.",
+        "Combine drained pasta with pancetta, remove from heat, and mix in egg mixture.",
+        "Add pasta water gradually to create a creamy sauce.",
+        "Serve immediately with extra cheese and black pepper."
+      ]
+    },
+    {
+      "name": "Chocolate Chip Cookies",
+      "ingredients": [
+        {
+          "item": "All-purpose flour",
+          "quantity": "2 cups",
+          "substitutions": [
+            { "substitution": "Almond flour" },
+            { "substitution": "Gluten-free flour" }
+          ]
+        },
+        {
+          "item": "Butter",
+          "quantity": "1 cup",
+          "substitutions": [
+            { "substitution": "Coconut oil" },
+            { "substitution": "Margarine" }
+          ]
+        },
+        {
+          "item": "Brown sugar",
+          "quantity": "¾ cup",
+          "substitutions": [
+            { "substitution": "Coconut sugar" }
+          ]
+        },
+        {
+          "item": "White sugar",
+          "quantity": "¾ cup",
+          "substitutions": [
+            { "substitution": "Honey (1/2 cup)" },
+            { "substitution": "Maple syrup (1/2 cup)" }
+          ]
+        },
+        {
+          "item": "Eggs",
+          "quantity": "2"
+        },
+        {
+          "item": "Vanilla extract",
+          "quantity": "1 tsp"
+        },
+        {
+          "item": "Baking soda",
+          "quantity": "1 tsp"
+        },
+        {
+          "item": "Salt",
+          "quantity": "½ tsp"
+        },
+        {
+          "item": "Chocolate chips",
+          "quantity": "1 cup",
+          "substitutions": [
+            { "substitution": "Carob chips" },
+            { "substitution": "Dark chocolate chunks" }
+          ]
+        }
+      ],
+      "steps": [
+        "Preheat oven to 350°F (175°C) and line a baking sheet with parchment paper.",
+        "Cream butter and sugars together until fluffy.",
+        "Beat in eggs and vanilla extract.",
+        "Mix flour, baking soda, and salt in a separate bowl, then gradually combine with wet ingredients.",
+        "Fold in chocolate chips.",
+        "Drop spoonfuls of dough onto the baking sheet and bake for 10-12 minutes until golden brown.",
+        "Cool on a wire rack before serving."
+      ]
+    }
+  ]
+}
