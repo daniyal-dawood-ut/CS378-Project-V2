@@ -1,3 +1,13 @@
+TODO
+1. Have StartRecipe be the default page. If user selects Ingredients, have it open the Ingredients page. Alternatively, if they press, Start have it open the StartRecipe page. (Daniyal)
+2. On the Ingredients page, allow the user to return to StartRecipe by clicking the back button (Daniyal)
+3. Add data for Hummingbird Muffin to JSON. We might need to change formatting (such as adding an extra key/value for our image paths) (Shreya)
+4. Use the JSON data to populate the StartRecipe page (Shreya)
+5. Find images online, create a folder for them, use them on StartRecipe (Shreya)
+6. Add functionality of the settings and three-line menu (Kavan)
+7. Make pages functional (Kavan)
+
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
