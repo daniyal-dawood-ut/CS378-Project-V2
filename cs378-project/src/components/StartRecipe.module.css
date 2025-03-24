@@ -1,63 +1,70 @@
 .container {
-    text-align: center;
-    background-color: #f5efe3;
-    padding: 20px;
-    border-radius: 10px;
-    max-width: 350px;
-    margin: auto;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  .title {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-  
-  .imageWrapper {
-    display: flex;
-    justify-content: center;
-    margin: 10px 0;
-  }
-  
-  .image {
-    border-radius: 10px;
-  }
-  
-  .rating {
-    font-size: 20px;
-    margin: 10px 0;
-  }
-  
-  .time, .difficulty {
-    font-size: 16px;
-    color: #555;
-  }
-  
-  .buttons {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 15px;
-  }
-  
-  .ingredientsButton, .startButton {
-    background-color: #a3876a;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
-  }
-  
-  .startButton {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-  }
-  
-  .ingredientsButton:hover, .startButton:hover {
-    background-color: #8b6e58;
-  }
-  
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: #f8f8f8;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  text-align: center;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 20px 0;
+  color: #000;
+}
+
+.imageWrapper {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0;
+}
+
+.image {
+  border-radius: 12px;
+}
+
+.rating {
+  font-size: 20px;
+  margin: 10px 0;
+  color: #000;
+}
+
+.time,
+.difficulty {
+  font-size: 16px;
+  color: #555;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.ingredientsButton,
+.startButton {
+  background-color: #a3876a;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.startButton {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.ingredientsButton:hover,
+.startButton:hover {
+  background-color: #8b6e58;
+}
