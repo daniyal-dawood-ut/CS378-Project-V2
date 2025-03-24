@@ -1,0 +1,63 @@
+.container {
+    text-align: center;
+    background-color: #f5efe3;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 350px;
+    margin: auto;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .imageWrapper {
+    display: flex;
+    justify-content: center;
+    margin: 10px 0;
+  }
+  
+  .image {
+    border-radius: 10px;
+  }
+  
+  .rating {
+    font-size: 20px;
+    margin: 10px 0;
+  }
+  
+  .time, .difficulty {
+    font-size: 16px;
+    color: #555;
+  }
+  
+  .buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 15px;
+  }
+  
+  .ingredientsButton, .startButton {
+    background-color: #a3876a;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .startButton {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  
+  .ingredientsButton:hover, .startButton:hover {
+    background-color: #8b6e58;
+  }
+  
