@@ -46,12 +46,54 @@
         }
       ],
       "steps": [
-        "Boil salted water and cook spaghetti until al dente, reserving ½ cup pasta water.",
-        "Fry pancetta in olive oil until crispy.",
-        "Whisk egg yolks with grated Parmesan and black pepper.",
-        "Combine drained pasta with pancetta, remove from heat, and mix in egg mixture.",
-        "Add pasta water gradually to create a creamy sauce.",
-        "Serve immediately with extra cheese and black pepper."
+        {
+          "stepNumber": 1,
+          "totalSteps": 6,
+          "title": "Boil pasta",
+          "description": "Boil salted water and cook spaghetti until al dente, reserving ½ cup pasta water.",
+          "imageUrl": "/images/spaghetti_carbonara/1.jpg",
+          "timerDuration": 10
+        },
+        {
+          "stepNumber": 2,
+          "totalSteps": 6,
+          "title": "Fry pancetta",
+          "description": "Fry pancetta in olive oil until crispy.",
+          "imageUrl": "/images/spaghetti_carbonara/2.jpg",
+          "timerDuration": 5
+        },
+        {
+          "stepNumber": 3,
+          "totalSteps": 6,
+          "title": "Whisk egg mixture",
+          "description": "Whisk egg yolks with grated Parmesan and black pepper.",
+          "imageUrl": "/images/spaghetti_carbonara/3.jpg",
+          "timerDuration": 3
+        },
+        {
+          "stepNumber": 4,
+          "totalSteps": 6,
+          "title": "Combine pasta and pancetta",
+          "description": "Combine drained pasta with pancetta, remove from heat, and mix in egg mixture.",
+          "imageUrl": "/images/spaghetti_carbonara/4.jpg",
+          "timerDuration": 5
+        },
+        {
+          "stepNumber": 5,
+          "totalSteps": 6,
+          "title": "Add pasta water",
+          "description": "Add pasta water gradually to create a creamy sauce.",
+          "imageUrl": "/images/spaghetti_carbonara/5.jpg",
+          "timerDuration": 3
+        },
+        {
+          "stepNumber": 6,
+          "totalSteps": 6,
+          "title": "Serve",
+          "description": "Serve immediately with extra cheese and black pepper.",
+          "imageUrl": "/images/spaghetti_carbonara/6.jpg",
+          "timerDuration": 0
+        }
       ]
     },
     {
@@ -114,13 +156,204 @@
         }
       ],
       "steps": [
-        "Preheat oven to 350°F (175°C) and line a baking sheet with parchment paper.",
-        "Cream butter and sugars together until fluffy.",
-        "Beat in eggs and vanilla extract.",
-        "Mix flour, baking soda, and salt in a separate bowl, then gradually combine with wet ingredients.",
-        "Fold in chocolate chips.",
-        "Drop spoonfuls of dough onto the baking sheet and bake for 10-12 minutes until golden brown.",
-        "Cool on a wire rack before serving."
+        {
+          "stepNumber": 1,
+          "totalSteps": 7,
+          "title": "Preheat oven",
+          "description": "Preheat oven to 350°F (175°C) and line a baking sheet with parchment paper.",
+          "imageUrl": "/images/chocolate_chip_cookies/1.jpg",
+          "timerDuration": 0
+        },
+        {
+          "stepNumber": 2,
+          "totalSteps": 7,
+          "title": "Cream butter and sugars",
+          "description": "Cream butter and sugars together until fluffy.",
+          "imageUrl": "/images/chocolate_chip_cookies/2.jpg",
+          "timerDuration": 3
+        },
+        {
+          "stepNumber": 3,
+          "totalSteps": 7,
+          "title": "Beat in eggs and vanilla",
+          "description": "Beat in eggs and vanilla extract.",
+          "imageUrl": "/images/chocolate_chip_cookies/3.jpg",
+          "timerDuration": 3
+        },
+        {
+          "stepNumber": 4,
+          "totalSteps": 7,
+          "title": "Mix dry ingredients",
+          "description": "Mix flour, baking soda, and salt in a separate bowl, then gradually combine with wet ingredients.",
+          "imageUrl": "/images/chocolate_chip_cookies/4.jpg",
+          "timerDuration": 5
+        },
+        {
+          "stepNumber": 5,
+          "totalSteps": 7,
+          "title": "Fold in chocolate chips",
+          "description": "Fold in chocolate chips.",
+          "imageUrl": "/images/chocolate_chip_cookies/5.jpg",
+          "timerDuration": 2
+        },
+        {
+          "stepNumber": 6,
+          "totalSteps": 7,
+          "title": "Bake cookies",
+          "description": "Drop spoonfuls of dough onto the baking sheet and bake for 10-12 minutes until golden brown.",
+          "imageUrl": "/images/chocolate_chip_cookies/6.jpg",
+          "timerDuration": 12
+        },
+        {
+          "stepNumber": 7,
+          "totalSteps": 7,
+          "title": "Cool cookies",
+          "description": "Cool on a wire rack before serving.",
+          "imageUrl": "/images/chocolate_chip_cookies/7.jpg",
+          "timerDuration": 5
+        }
+      ]
+    },
+    {
+      "name": "Hummingbird Muffins",
+      "ingredients": [
+        {
+          "item": "All-purpose flour",
+          "quantity": "2 cups",
+          "substitutions": [
+            { "substitution": "Whole wheat flour" },
+            { "substitution": "Gluten-free flour" }
+          ]
+        },
+        {
+          "item": "Baking soda",
+          "quantity": "1 tsp"
+        },
+        {
+          "item": "Salt",
+          "quantity": "½ tsp"
+        },
+        {
+          "item": "Cinnamon",
+          "quantity": "1 tsp"
+        },
+        {
+          "item": "Brown sugar",
+          "quantity": "¾ cup",
+          "substitutions": [
+            { "substitution": "Coconut sugar" }
+          ]
+        },
+        {
+          "item": "Eggs",
+          "quantity": "2",
+          "substitutions": [
+            { "substitution": "Flax eggs" }
+          ]
+        },
+        {
+          "item": "Vegetable oil",
+          "quantity": "½ cup",
+          "substitutions": [
+            { "substitution": "Coconut oil" }
+          ]
+        },
+        {
+          "item": "Vanilla extract",
+          "quantity": "1 tsp"
+        },
+        {
+          "item": "Mashed bananas",
+          "quantity": "1 cup"
+        },
+        {
+          "item": "Crushed pineapple",
+          "quantity": "½ cup",
+          "substitutions": [
+            { "substitution": "Applesauce" }
+          ]
+        },
+        {
+          "item": "Chopped pecans",
+          "quantity": "½ cup",
+          "substitutions": [
+            { "substitution": "Walnuts" }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "stepNumber": 1,
+          "totalSteps": 9,
+          "title": "Preheat oven",
+          "description": "Preheat oven to 350°F (175°C) and line a muffin tin with paper liners.",
+          "imageUrl": "/images/hummingbird_muffins/1.jpg",
+          "timerDuration": 0
+        },
+        {
+          "stepNumber": 2,
+          "totalSteps": 9,
+          "title": "Mix dry ingredients",
+          "description": "In a bowl, whisk together flour, baking soda, salt, and cinnamon.",
+          "imageUrl": "/images/hummingbird_muffins/2.jpg",
+          "timerDuration": 3
+        },
+        {
+          "stepNumber": 3,
+          "totalSteps": 9,
+          "title": "Mix wet ingredients",
+          "description": "In a separate bowl, whisk together brown sugar, eggs, oil, and vanilla until well combined.",
+          "imageUrl": "/images/hummingbird_muffins/3.jpg",
+          "timerDuration": 5
+        },
+        {
+          "stepNumber": 4,
+          "totalSteps": 9,
+          "title": "Add bananas and pineapple",
+          "description": "Stir in mashed bananas and crushed pineapple.",
+          "imageUrl": "/images/hummingbird_muffins/4.jpg",
+          "timerDuration": 3
+        },
+        {
+          "stepNumber": 5,
+          "totalSteps": 9,
+          "title": "Combine dry and wet ingredients",
+          "description": "Gradually mix in dry ingredients until just combined.",
+          "imageUrl": "/images/hummingbird_muffins/5.jpg",
+          "timerDuration": 3
+        },
+        {
+          "stepNumber": 6,
+          "totalSteps": 9,
+          "title": "Fold in nuts",
+          "description": "Fold in chopped pecans.",
+          "imageUrl": "/images/hummingbird_muffins/6.jpg",
+          "timerDuration": 2
+        },
+        {
+          "stepNumber": 7,
+          "totalSteps": 9,
+          "title": "Scoop batter",
+          "description": "Scoop batter into muffin cups, filling each about ¾ full.",
+          "imageUrl": "/images/hummingbird_muffins/7.jpg",
+          "timerDuration": 0
+        },
+        {
+          "stepNumber": 8,
+          "totalSteps": 9,
+          "title": "Bake muffins",
+          "description": "Bake for 18-22 minutes or until a toothpick inserted in the center comes out clean.",
+          "imageUrl": "/images/hummingbird_muffins/8.jpg",
+          "timerDuration": 22
+        },
+        {
+          "stepNumber": 9,
+          "totalSteps": 9,
+          "title": "Cool muffins",
+          "description": "Let cool in the pan for 5 minutes, then transfer to a wire rack to cool completely.",
+          "imageUrl": "/images/hummingbird_muffins/9.jpg",
+          "timerDuration": 5
+        }
       ]
     }
   ]

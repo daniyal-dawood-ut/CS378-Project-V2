@@ -1,8 +1,7 @@
-// src/components/RecipeStep.tsx
-"use client"
+"use client";
 
-import React, { useState, useEffect } from 'react';
-import styles from './RecipeStep.module.css';
+import React, { useState, useEffect } from "react";
+import styles from "./RecipeStep.module.css";
 
 interface RecipeStepProps {
   stepNumber: number;
@@ -32,7 +31,7 @@ const RecipeStep: React.FC<RecipeStepProps> = ({
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
-    
+
     if (timerActive && timeRemaining > 0) {
       interval = setInterval(() => {
         setTimeRemaining((prevTime) => prevTime - 1);
@@ -40,11 +39,13 @@ const RecipeStep: React.FC<RecipeStepProps> = ({
     } else if (timeRemaining === 0 && timerActive) {
       setTimerActive(false);
     }
-    
+
     return () => clearInterval(interval);
   }, [timerActive, timeRemaining]);
 
+  // Function to format time properly
   const formatTime = (seconds: number) => {
+    if (seconds <= 0) return null; // Don't display timer if 0
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
     return `${mins} min ${secs} sec left`;
@@ -68,18 +69,18 @@ const RecipeStep: React.FC<RecipeStepProps> = ({
           </svg>
         </button>
       </div>
-      
+
       {/* Card */}
       <div className={styles.card}>
         <h2 className={styles.title}>{title}</h2>
-        
+
         <div className={styles.imageContainer}>
           <img src={imageUrl} alt={title} className={styles.image} />
         </div>
-        
+
         <p className={styles.description}>{description}</p>
-        
-        {timerDuration > 0 && (
+
+        {timeRemaining > 0 && (
           <div className={styles.timerContainer}>
             <svg viewBox="0 0 24 24" width="24" height="24" className={styles.timerIcon}>
               <path d="M13 3h-2v10h2V3zm4.83 2.17l-1.42 1.42C17.99 7.86 19 9.81 19 12c0 3.87-3.13 7-7 7s-7-3.13-7-7c0-2.19 1.01-4.14 2.58-5.42L6.17 5.17C4.23 6.82 3 9.26 3 12c0 4.97 4.03 9 9 9s9-4.03 9-9c0-2.74-1.23-5.18-3.17-6.83z" />
@@ -88,22 +89,14 @@ const RecipeStep: React.FC<RecipeStepProps> = ({
           </div>
         )}
       </div>
-      
+
       {/* Navigation */}
       <div className={styles.navigation}>
-        <button 
-          className={styles.navButton} 
-          onClick={onPrevious}
-          disabled={stepNumber === 1}
-        >
+        <button className={styles.navButton} onClick={onPrevious} disabled={stepNumber === 1}>
           ←
         </button>
         <div className={styles.flipText}>Flip card to see demo & tips</div>
-        <button 
-          className={styles.navButton} 
-          onClick={onNext}
-          disabled={stepNumber === totalSteps}
-        >
+        <button className={styles.navButton} onClick={onNext} disabled={stepNumber === totalSteps}>
           →
         </button>
       </div>

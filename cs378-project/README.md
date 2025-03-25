@@ -6,6 +6,7 @@ TODO
 5. Find images online, create a folder for them, use them on StartRecipe (Shreya)
 6. Add functionality of the settings and three-line menu (Kavan)
 7. Make pages functional (Kavan)
+8. Make back buttons work on steps (Cate)
 
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
