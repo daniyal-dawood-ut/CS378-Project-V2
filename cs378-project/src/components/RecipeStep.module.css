@@ -42,12 +42,50 @@
   color: #333;
 }
 
-.card {
-  background-color: #fff;
+/* Card container for flip animation */
+.cardContainer {
+  width: 100%;
+  height: 450px; /* Fixed height based on your design */
+  perspective: 1000px;
+}
+
+
+.cardWrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+
+.cardFace {
+  cursor: pointer;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto; /* Allow scrolling for longer content */
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  background-color: white;
   padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+.flipped {
+  transform: rotateY(180deg);
+}
+
+.cardFront {
+  z-index: 2;
+}
+
+.cardBack {
+  transform: rotateY(180deg);
 }
 
 .title {
@@ -129,13 +167,73 @@
   text-align: center;
 }
 
+.menuContainer {
+  position: relative;
+}
+
+.menuDropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  min-width: 180px;
+  z-index: 10;
+  margin-top: 8px;
+}
+
+.menuDropdown ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menuDropdown li {
+  padding: 12px 16px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #333;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.menuDropdown li:last-child {
+  border-bottom: none;
+}
+
+.menuDropdown li:hover {
+  background-color: #f8f8f8;
+}
+
+.demoSection, .tipsSection {
+  margin-bottom: 20px;
+  width: 100%;
+  text-align: left;
+}
+
+.demoSection h3, .tipsSection h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.backButton {
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
 @media (max-width: 600px) {
   .recipeStepContainer {
     border-radius: 0;
     box-shadow: none;
   }
   
-  .card {
+  .cardFace {
     padding: 15px;
   }
   
