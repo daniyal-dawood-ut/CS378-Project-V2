@@ -157,13 +157,13 @@ const RecipeStep: React.FC<RecipeStepProps> = ({
 
           {/* Back Side */}
           <div className={`${styles.cardFace} ${styles.cardBack}`} onClick={handleFlip}>
-            <h2 className={styles.title}>Demo &amp; Tips</h2>
+            <h2 className={styles.title}>Demonstration &amp; Tip</h2>
             <div className={styles.demoSection}>
               <h3>Demonstration</h3>
               <p>{demonstration}</p>
             </div>
             <div className={styles.tipsSection}>
-              <h3>Helpful Tips</h3>
+              <h3>Helpful Tip</h3>
               <p>{helpfulTip}</p>
             </div>
           </div>
