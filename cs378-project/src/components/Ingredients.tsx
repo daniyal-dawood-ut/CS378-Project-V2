@@ -104,7 +104,7 @@ const Ingredients: React.FC<IngredientsProps> = ({ onContinueToInstructions, onB
     <div className={styles.container}>
       <div className={styles.header}>
         <button className={styles.backButton} onClick={onBack}>
-          ← Back to Hummingbird Muffins
+          ← Back to {selected}
         </button>
         <button className={styles.settingsButton} onClick={() => setShowSettings(true)}>
           <svg viewBox="0 0 24 24" width="24" height="24" className={styles.settingsIcon}>

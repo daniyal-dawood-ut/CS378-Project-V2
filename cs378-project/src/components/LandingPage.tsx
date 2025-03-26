@@ -27,17 +27,31 @@ export default function LandingPage({ onEnter, onSelectRecipe }: LandingPageProp
         <h1 className={styles.title}>AL DENTE</h1>
       </div>
       <div className={styles.content}>
-        {recipes.map((recipe) => (
-          <button
-            key={recipe.recipeName} 
-            className={styles.button}
-            onClick={() => onSelectRecipe(recipe.recipeName)} 
-          >
-            {recipe.recipeName}
-          </button>
-        ))}
+        {recipes.map((recipe) => {
+          // Format the recipe name for the image path
+          const formattedRecipe = recipe.recipeName.toLowerCase().replace(/\s+/g, "_");
+
+          return (
+            <button
+              key={recipe.recipeName} 
+              className={styles.button}
+              onClick={() => onSelectRecipe(recipe.recipeName)} 
+            >
+              {/* Show the image and recipe name */}
+              <div className={styles.imageWrapper}>
+                <img 
+                  src={`/images/${formattedRecipe}/cover_photo.jpg`} 
+                  alt={recipe.recipeName} 
+                  className={styles.recipeImage} 
+                />
+              </div>
+              <span>{recipe.recipeName}</span>
+            </button>
+          );
+        })}
       </div>
     </div>
   );
 }
+
 

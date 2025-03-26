@@ -48,7 +48,7 @@
     padding: 12px 20px;
     border: none;
     border-radius: 8px;
-    background-color: #ff8c42;
+    background-color: #355e3b;
     color: white;
     cursor: pointer;
     transition: 0.3s;
@@ -59,3 +59,21 @@
 .button:hover {
     background-color: #e67334;
 }
+
+.imageWrapper {
+    width: 100%;
+    height: 0;
+    padding-bottom: 100%; /* Creates a square by setting the padding bottom to 100% of the width */
+    position: relative;
+    overflow: hidden;
+}
+
+.recipeImage {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+

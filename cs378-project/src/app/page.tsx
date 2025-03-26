@@ -58,6 +58,8 @@ export default function Home() {
 
   const handleSelectRecipe = (recipeName: string) => {
     setSelectedRecipe(recipeName);
+    setHasStartedRecipe(false);
+    setCurrentStepIndex(0);
     setCurrentView("start");
   }
   
