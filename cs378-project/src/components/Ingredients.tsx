@@ -21,10 +21,11 @@ interface Ingredient {
 interface IngredientsProps {
   onContinueToInstructions: () => void;
   onBack: () => void;
+  selected: string; 
 }
 
-const transformData = (json: any): Ingredient[] => {
-  const recipe = json.recipes.find((r: any) => r.name === "Hummingbird Muffins");
+const transformData = (json: any, selectedRecipe: string): Ingredient[] => {
+  const recipe = json.recipes.find((r: any) => r.name === selectedRecipe);
   if (!recipe) return [];
   return recipe.ingredients.map((item: any) => ({
     id: item.item.toLowerCase().replace(/\s/g, "-"),
@@ -43,7 +44,7 @@ const transformData = (json: any): Ingredient[] => {
   }));
 };
 
-const Ingredients: React.FC<IngredientsProps> = ({ onContinueToInstructions, onBack }) => {
+const Ingredients: React.FC<IngredientsProps> = ({ onContinueToInstructions, onBack, selected }) => {
   const [ingredients, setIngredients] = useState<Ingredient[]>([]);
   const [showSettings, setShowSettings] = useState(false);
   const [isFavorite, setIsFavorite] = useState<boolean>(() => {
@@ -52,9 +53,8 @@ const Ingredients: React.FC<IngredientsProps> = ({ onContinueToInstructions, onB
   });
 
   useEffect(() => {
-    setIngredients(transformData(recipeData));
-  }, []);
-
+    setIngredients(transformData(recipeData, selected)); 
+  }, [selected]);
   const toggleIngredient = (id: string) => {
     setIngredients((prev) =>
       prev.map((ingredient) =>

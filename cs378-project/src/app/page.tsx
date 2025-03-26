@@ -18,9 +18,10 @@ export default function Home() {
   const [currentView, setCurrentView] = useState<"landing" | "start" | "ingredients" | "steps">("landing");
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [hasStartedRecipe, setHasStartedRecipe] = useState(false);
+  const [selectedRecipe, setSelectedRecipe] = useState<string>("");
   
   // Load recipe steps dynamically
-  const recipeSteps = getRecipeSteps("Hummingbird Muffins");
+  const recipeSteps = getRecipeSteps(selectedRecipe);
   const totalSteps = recipeSteps.length;
   const currentStep = recipeSteps[currentStepIndex];
 
@@ -54,12 +55,17 @@ export default function Home() {
     // Navigate to specific step
     setCurrentStepIndex(stepNumber - 1); // If using state to track current step
   };
+
+  const handleSelectRecipe = (recipeName: string) => {
+    setSelectedRecipe(recipeName);
+    setCurrentView("start");
+  }
   
 
   return (
     <div className={styles.container}>
       {currentView === "landing" && (
-        <LandingPage onEnter={() => setCurrentView("start")} />
+        <LandingPage onEnter={() => setCurrentView("start")} onSelectRecipe={handleSelectRecipe} />
       )}
       {currentView === "start" && (
         <StartRecipe 
@@ -67,12 +73,14 @@ export default function Home() {
           onShowIngredients={goToIngredients} 
           onBack={goToLanding}
           hasStarted={hasStartedRecipe}
+          selected={selectedRecipe}
         />
       )}
       {currentView === "ingredients" && (
         <Ingredients 
           onContinueToInstructions={goToSteps} 
           onBack={goToStart} 
+          selected={selectedRecipe}
         />
       )}
       {currentView === "steps" && totalSteps > 0 && (
