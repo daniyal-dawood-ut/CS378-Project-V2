@@ -16,7 +16,8 @@ const getRecipeSteps = (recipeName: string) => {
 export default function Home() {
   const [currentView, setCurrentView] = useState<"start" | "ingredients" | "steps">("start");
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
-
+  const [hasStartedRecipe, setHasStartedRecipe] = useState(false);
+  
   // Load recipe steps dynamically
   const recipeSteps = getRecipeSteps("Hummingbird Muffins");
   const totalSteps = recipeSteps.length;
@@ -25,7 +26,10 @@ export default function Home() {
   // Navigation handlers
   const goToIngredients = () => setCurrentView("ingredients");
   const goToStart = () => setCurrentView("start");
-  const goToSteps = () => setCurrentView("steps");
+  const goToSteps = () => {
+    setCurrentView("steps");
+    setHasStartedRecipe(true);
+  }
 
   const handleNext = () => {
     if (currentStepIndex < totalSteps - 1) {
@@ -39,14 +43,21 @@ export default function Home() {
     }
   };
 
-  const handleFlip = () => {
-    console.log("Flip card");
+  const handleNavigateHome = () => {
+    // Navigate to home page
+    setCurrentView("start");
   };
+
+  const handleStepSelect = (stepNumber: number) => {
+    // Navigate to specific step
+    setCurrentStepIndex(stepNumber - 1); // If using state to track current step
+  };
+
 
   return (
     <div className={styles.container}>
       {currentView === "start" && (
-        <StartRecipe onStart={goToSteps} onShowIngredients={goToIngredients} />
+        <StartRecipe onStart={goToSteps} onShowIngredients={goToIngredients} hasStarted={hasStartedRecipe}/>
       )}
       {currentView === "ingredients" && (
         <Ingredients onContinueToInstructions={goToSteps} onBack={goToStart} />
@@ -64,7 +75,9 @@ export default function Home() {
               timerDuration={currentStep.timerDuration}
               onNext={handleNext}
               onPrevious={handlePrevious}
-              onFlip={handleFlip}
+              onNavigateHome={handleNavigateHome}
+              onStepSelect={handleStepSelect}
+              allStepTitles={recipeSteps.map((step) => step.title)}
             />
           </div>
         </>

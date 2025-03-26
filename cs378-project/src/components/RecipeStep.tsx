@@ -12,7 +12,9 @@ interface RecipeStepProps {
   timerDuration?: number; // in seconds
   onNext?: () => void;
   onPrevious?: () => void;
-  onFlip?: () => void;
+  allStepTitles?: string[];
+  onNavigateHome?: () => void;
+  onStepSelect?: (stepNumber: number) => void;
 }
 
 const RecipeStep: React.FC<RecipeStepProps> = ({
@@ -24,18 +26,15 @@ const RecipeStep: React.FC<RecipeStepProps> = ({
   timerDuration = 0,
   onNext,
   onPrevious,
-  onFlip,
+  allStepTitles = [],
+  onNavigateHome,
+  onStepSelect,
 }) => {
   const [timeRemaining, setTimeRemaining] = useState(timerDuration);
   const [timerActive, setTimerActive] = useState(timerDuration > 0);
   const [menuOpen, setMenuOpen] = useState(false);
   const [isFlipped, setIsFlipped] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    // Reset to front side whenever step changes
-    setIsFlipped(false);
-  }, [stepNumber]);
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -50,6 +49,11 @@ const RecipeStep: React.FC<RecipeStepProps> = ({
 
     return () => clearInterval(interval);
   }, [timerActive, timeRemaining]);
+
+  // Reset to front side whenever step changes
+  useEffect(() => {
+    setIsFlipped(false);
+  }, [stepNumber]);
 
   // Function to format time properly
   const formatTime = (seconds: number) => {
@@ -79,9 +83,13 @@ const RecipeStep: React.FC<RecipeStepProps> = ({
 
   const handleFlip = () => {
     setIsFlipped(!isFlipped);
-    if (onFlip) {
-      onFlip();
+  };
+
+  const handleStepSelect = (index: number) => {
+    if (onStepSelect) {
+      onStepSelect(index);
     }
+    setMenuOpen(false);
   };
 
   return (
@@ -100,11 +108,16 @@ const RecipeStep: React.FC<RecipeStepProps> = ({
           {menuOpen && (
             <div className={styles.menuDropdown}>
               <ul>
-                <li>Home</li>
-                <li>All Recipes</li>
-                <li>Favorites</li>
-                <li>Shopping List</li>
-                <li>About</li>
+                <li onClick={onNavigateHome}>Home</li>
+                {allStepTitles.map((title, index) => (
+                  <li 
+                    key={index} 
+                    onClick={() => handleStepSelect(index + 1)}
+                    className={stepNumber === index + 1 ? styles.activeStep : ""}
+                  >
+                    {index + 1}. {title}
+                  </li>
+                ))}
               </ul>
             </div>
           )}
@@ -155,10 +168,6 @@ const RecipeStep: React.FC<RecipeStepProps> = ({
               <p>Make sure all ingredients are at room temperature before mixing.</p>
               <p>Use a whisk for a smoother consistency.</p>
             </div>
-            
-            <button className={styles.backButton} onClick={handleFlip}>
-              Back to Recipe
-            </button>
           </div>
         </div>
       </div>

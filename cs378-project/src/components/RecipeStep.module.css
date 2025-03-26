@@ -179,9 +179,13 @@
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   min-width: 180px;
-  z-index: 10;
+  max-height: 300px;
+  overflow-y: auto;
+  z-index: 100; /* Ensure this is high enough */
   margin-top: 8px;
 }
+
+
 
 .menuDropdown ul {
   list-style: none;
