@@ -1,22 +1,29 @@
 import React from "react";
 import styles from "./StartRecipe.module.css";
 import Image from "next/image";
-import { FaPlay, FaUndo } from "react-icons/fa";
+import { FaPlay, FaUndo} from "react-icons/fa";
 
 // Define the prop types
 interface StartRecipeProps {
   onStart: () => void;
   onShowIngredients: () => void;
-  hasStarted?: boolean; // New prop to track if recipe has been started
+  hasStarted?: boolean; // Track if recipe has been started
+  onBack: () => void; // New prop for handling back navigation
 }
 
 const StartRecipe: React.FC<StartRecipeProps> = ({ 
   onStart, 
   onShowIngredients, 
-  hasStarted = false 
+  hasStarted = false,
+  onBack
 }) => {
   return (
     <div className={styles.container}>
+      <div className={styles.header}>
+        <button className={styles.backButton} onClick={onBack}>
+          ← Back to all recipes
+        </button>
+      </div>
       <h1 className={styles.title}>Hummingbird Muffins</h1>
       <div className={styles.imageWrapper}>
         <Image 

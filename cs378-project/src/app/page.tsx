@@ -4,6 +4,7 @@ import { useState } from "react";
 import RecipeStep from "../components/RecipeStep";
 import Ingredients from "../components/Ingredients";
 import StartRecipe from "../components/StartRecipe";
+import LandingPage from "../components/LandingPage";
 import recipeData from "../../demo_recipes.json"; // Import JSON data
 import styles from "../styles/page.module.css";
 
@@ -14,7 +15,7 @@ const getRecipeSteps = (recipeName: string) => {
 };
 
 export default function Home() {
-  const [currentView, setCurrentView] = useState<"start" | "ingredients" | "steps">("start");
+  const [currentView, setCurrentView] = useState<"landing" | "start" | "ingredients" | "steps">("landing");
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [hasStartedRecipe, setHasStartedRecipe] = useState(false);
   
@@ -30,6 +31,7 @@ export default function Home() {
     setCurrentView("steps");
     setHasStartedRecipe(true);
   };
+  const goToLanding = () => setCurrentView("landing");
 
   const handleNext = () => {
     if (currentStepIndex < totalSteps - 1) {
@@ -56,10 +58,14 @@ export default function Home() {
 
   return (
     <div className={styles.container}>
+      {currentView === "landing" && (
+        <LandingPage onEnter={() => setCurrentView("start")} />
+      )}
       {currentView === "start" && (
         <StartRecipe 
           onStart={goToSteps} 
           onShowIngredients={goToIngredients} 
+          onBack={goToLanding}
           hasStarted={hasStartedRecipe}
         />
       )}
