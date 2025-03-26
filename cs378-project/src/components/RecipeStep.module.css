@@ -49,7 +49,6 @@
   perspective: 1000px;
 }
 
-
 .cardWrapper {
   position: relative;
   width: 100%;
@@ -74,7 +73,6 @@
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
-
 
 .flipped {
   transform: rotateY(180deg);
@@ -185,8 +183,6 @@
   margin-top: 8px;
 }
 
-
-
 .menuDropdown ul {
   list-style: none;
   padding: 0;
@@ -209,16 +205,24 @@
   background-color: #f8f8f8;
 }
 
-.demoSection, .tipsSection {
+.demoSection,
+.tipsSection {
   margin-bottom: 20px;
   width: 100%;
   text-align: left;
 }
 
-.demoSection h3, .tipsSection h3 {
+.demoSection h3,
+.tipsSection h3 {
   font-size: 18px;
   margin-bottom: 10px;
   color: #333;
+}
+
+/* New rules: Set demonstration and tip paragraphs to black */
+.demoSection p,
+.tipsSection p {
+  color: #000;
 }
 
 .backButton {

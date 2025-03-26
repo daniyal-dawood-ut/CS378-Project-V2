@@ -10,6 +10,8 @@ interface RecipeStepProps {
   description: string;
   imageUrl: string;
   timerDuration?: number; // in seconds
+  demonstration: string;
+  helpfulTip: string;
   onNext?: () => void;
   onPrevious?: () => void;
   allStepTitles?: string[];
@@ -24,6 +26,8 @@ const RecipeStep: React.FC<RecipeStepProps> = ({
   description,
   imageUrl,
   timerDuration = 0,
+  demonstration,
+  helpfulTip,
   onNext,
   onPrevious,
   allStepTitles = [],
@@ -62,7 +66,7 @@ const RecipeStep: React.FC<RecipeStepProps> = ({
     const secs = seconds % 60;
     return `${mins} min ${secs} sec left`;
   };
-  
+
   // Close menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -70,7 +74,7 @@ const RecipeStep: React.FC<RecipeStepProps> = ({
         setMenuOpen(false);
       }
     };
-    
+
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
@@ -104,7 +108,6 @@ const RecipeStep: React.FC<RecipeStepProps> = ({
               <rect y="18" width="24" height="2" rx="1" />
             </svg>
           </button>
-          
           {menuOpen && (
             <div className={styles.menuDropdown}>
               <ul>
@@ -122,8 +125,9 @@ const RecipeStep: React.FC<RecipeStepProps> = ({
             </div>
           )}
         </div>
-        
-        <div className={styles.stepIndicator}>{stepNumber} / {totalSteps}</div>
+        <div className={styles.stepIndicator}>
+          {stepNumber} / {totalSteps}
+        </div>
         <button className={styles.settingsButton}>
           <svg viewBox="0 0 24 24" width="24" height="24" className={styles.settingsIcon}>
             <path d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.07-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.74,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.07,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.44-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.47-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z" />
@@ -135,15 +139,12 @@ const RecipeStep: React.FC<RecipeStepProps> = ({
       <div className={styles.cardContainer}>
         <div className={`${styles.cardWrapper} ${isFlipped ? styles.flipped : ''}`}>
           {/* Front Side */}
-          <div className={styles.cardFace + ' ' + styles.cardFront} onClick={handleFlip}>
+          <div className={`${styles.cardFace} ${styles.cardFront}`} onClick={handleFlip}>
             <h2 className={styles.title}>{title}</h2>
-
             <div className={styles.imageContainer}>
               <img src={imageUrl} alt={title} className={styles.image} />
             </div>
-
             <p className={styles.description}>{description}</p>
-
             {timeRemaining > 0 && (
               <div className={styles.timerContainer}>
                 <svg viewBox="0 0 24 24" width="24" height="24" className={styles.timerIcon}>
@@ -155,18 +156,15 @@ const RecipeStep: React.FC<RecipeStepProps> = ({
           </div>
 
           {/* Back Side */}
-          <div className={styles.cardFace + ' ' + styles.cardBack} onClick={handleFlip}>
-            <h2 className={styles.title}>Demo & Tips</h2>
-            
+          <div className={`${styles.cardFace} ${styles.cardBack}`} onClick={handleFlip}>
+            <h2 className={styles.title}>Demo &amp; Tips</h2>
             <div className={styles.demoSection}>
               <h3>Demonstration</h3>
-              <p>Watch how to properly mix the ingredients for best results.</p>
+              <p>{demonstration}</p>
             </div>
-            
             <div className={styles.tipsSection}>
               <h3>Helpful Tips</h3>
-              <p>Make sure all ingredients are at room temperature before mixing.</p>
-              <p>Use a whisk for a smoother consistency.</p>
+              <p>{helpfulTip}</p>
             </div>
           </div>
         </div>
@@ -178,7 +176,7 @@ const RecipeStep: React.FC<RecipeStepProps> = ({
           ←
         </button>
         <div className={styles.flipText}>
-          Flip card to see demo & tips
+          Flip card to see demo &amp; tips
         </div>
         <button className={styles.navButton} onClick={onNext} disabled={stepNumber === totalSteps}>
           →

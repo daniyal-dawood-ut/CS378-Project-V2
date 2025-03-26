@@ -29,7 +29,7 @@ export default function Home() {
   const goToSteps = () => {
     setCurrentView("steps");
     setHasStartedRecipe(true);
-  }
+  };
 
   const handleNext = () => {
     if (currentStepIndex < totalSteps - 1) {
@@ -52,15 +52,22 @@ export default function Home() {
     // Navigate to specific step
     setCurrentStepIndex(stepNumber - 1); // If using state to track current step
   };
-
+  
 
   return (
     <div className={styles.container}>
       {currentView === "start" && (
-        <StartRecipe onStart={goToSteps} onShowIngredients={goToIngredients} hasStarted={hasStartedRecipe}/>
+        <StartRecipe 
+          onStart={goToSteps} 
+          onShowIngredients={goToIngredients} 
+          hasStarted={hasStartedRecipe}
+        />
       )}
       {currentView === "ingredients" && (
-        <Ingredients onContinueToInstructions={goToSteps} onBack={goToStart} />
+        <Ingredients 
+          onContinueToInstructions={goToSteps} 
+          onBack={goToStart} 
+        />
       )}
       {currentView === "steps" && totalSteps > 0 && (
         <>
@@ -73,6 +80,8 @@ export default function Home() {
               description={currentStep.description}
               imageUrl={currentStep.imageUrl}
               timerDuration={currentStep.timerDuration}
+              demonstration={currentStep.demonstration}
+              helpfulTip={currentStep.helpfulTip}
               onNext={handleNext}
               onPrevious={handlePrevious}
               onNavigateHome={handleNavigateHome}
