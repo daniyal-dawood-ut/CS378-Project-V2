@@ -1,7 +1,8 @@
 "use client";
-
+import { useState } from "react";
 import styles from "./LandingPage.module.css";
 import recipeData from "../../demo_recipes.json";
+import AddRecipeModal from "./AddRecipeModal"; // new component
 
 interface LandingPageProps {
   onEnter: () => void;
@@ -20,17 +21,23 @@ const transformData = (json: any): Recipe[] => {
 
 export default function LandingPage({ onEnter, onSelectRecipe }: LandingPageProps) {
   const recipes = transformData(recipeData);
+  const [showModal, setShowModal] = useState(false);
 
   return (
     <div className={styles.container}>
       <div className={styles.header}>
         <h1 className={styles.title}>AL DENTE</h1>
       </div>
+      <div className={styles.uploadPill} onClick={() => setShowModal(true)}>
+        <span>Upload custom recipe</span>
+        <span className={styles.arrow}>  ↑</span>
+      </div>
+      {showModal && <AddRecipeModal onClose={() => setShowModal(false)} />}
       <div className={styles.content}>
         {recipes.map((recipe) => {
           // Format the recipe name for the image path
           const formattedRecipe = recipe.recipeName.toLowerCase().replace(/\s+/g, "_");
-
+          
           return (
             <button
               key={recipe.recipeName} 
