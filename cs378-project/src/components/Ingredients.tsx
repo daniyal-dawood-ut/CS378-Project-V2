@@ -141,7 +141,7 @@ const Ingredients: React.FC<IngredientsProps> = ({ onContinueToInstructions, onB
                 </button>
               )}
             </div>
-            {ingredient.showAlternatives && (
+            {ingredient.showAlternatives && ingredient.alternatives && (
               <div className={styles.alternativesList}>
                 {ingredient.alternatives.map((alternative) => (
                   <div key={alternative.id} className={styles.alternativeItem}>
