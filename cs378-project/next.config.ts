@@ -4,8 +4,8 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   /* config options here */
   output: 'export',
-  basePath: "/cs378-project",
-  assetPrefix: "/cs378-project/",
+  // basePath: "/cs378-project",
+  // assetPrefix: "/cs378-project/",
   images: { unoptimized: true }
 };
 
