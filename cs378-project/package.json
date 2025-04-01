@@ -4,7 +4,7 @@
   "homepage": "https://daniyal-d.github.io/CS378-Project",
   "private": true,
   "scripts": {
-    "predeploy": "npm run build",
+    "predeploy": "npm run build && node fixPaths.js",
     "deploy": "gh-pages -d out",
     "dev": "next dev --turbopack",
     "build": "next build",

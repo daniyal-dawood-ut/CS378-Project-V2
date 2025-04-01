@@ -149,7 +149,11 @@ const RecipeStep: React.FC<RecipeStepProps> = ({
           <div className={`${styles.cardFace} ${styles.cardFront}`} onClick={handleFlip}>
             <h2 className={styles.title}>{title}</h2>
             <div className={styles.imageContainer}>
-              <img src={imageUrl} alt={title} className={styles.image} />
+            <img
+              src={imageUrl.startsWith('/') ? `.${imageUrl}` : imageUrl}
+              alt={title}
+              className={styles.image}
+            />
             </div>
             <p className={styles.description}>{description}</p>
             {timeRemaining > 0 && (

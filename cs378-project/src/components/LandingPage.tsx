@@ -53,7 +53,7 @@ export default function LandingPage({ onSelectRecipe }: LandingPageProps) {
             >
               <div className={styles.imageWrapper}>
                 <img
-                  src={`/images/${formattedRecipe}/cover_photo.jpg`}
+                  src={`./images/${formattedRecipe}/cover_photo.jpg`}
                   alt={recipe.recipeName}
                   className={styles.recipeImage}
                 />

@@ -31,7 +31,7 @@ const StartRecipe: React.FC<StartRecipeProps> = ({
       <h1 className={styles.title}>{selected}</h1>
       <div className={styles.imageWrapper}>
         <Image 
-          src={`/images/${formattedRecipe}/cover_photo.jpg`}
+          src={`./images/${formattedRecipe}/cover_photo.jpg`}
           alt={selected}
           width={200} 
           height={200} 
