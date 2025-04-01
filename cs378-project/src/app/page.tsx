@@ -67,7 +67,7 @@ export default function Home() {
   return (
     <div className={styles.container}>
       {currentView === "landing" && (
-        <LandingPage onEnter={() => setCurrentView("start")} onSelectRecipe={handleSelectRecipe} />
+        <LandingPage onSelectRecipe={handleSelectRecipe} />
       )}
       {currentView === "start" && (
         <StartRecipe 

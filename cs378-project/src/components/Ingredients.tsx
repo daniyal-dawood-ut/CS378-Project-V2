@@ -4,6 +4,22 @@ import styles from "./Ingredients.module.css";
 import recipeData from "../../demo_recipes.json";
 import { FaRegStar, FaStar } from "react-icons/fa";
 
+interface DemoIngredient {
+  item: string;
+  quantity?: string;
+  substitutions?: { substitution: string }[];
+}
+
+interface DemoRecipe {
+  name: string;
+  ingredients: DemoIngredient[];
+  steps: unknown[];
+}
+
+interface DemoRecipes {
+  recipes: DemoRecipe[];
+}
+
 interface Ingredient {
   id: string;
   name: string;
@@ -24,16 +40,16 @@ interface IngredientsProps {
   selected: string; 
 }
 
-const transformData = (json: any, selectedRecipe: string): Ingredient[] => {
-  const recipe = json.recipes.find((r: any) => r.name === selectedRecipe);
+const transformData = (json: DemoRecipes, selectedRecipe: string): Ingredient[] => {
+  const recipe = json.recipes.find((r) => r.name === selectedRecipe);
   if (!recipe) return [];
-  return recipe.ingredients.map((item: any) => ({
+  return recipe.ingredients.map((item) => ({
     id: item.item.toLowerCase().replace(/\s/g, "-"),
     name: item.item,
     amount: item.quantity ? `(${item.quantity})` : "",
     selected: false,
     alternatives: item.substitutions
-      ? item.substitutions.map((sub: any) => ({
+      ? item.substitutions.map((sub) => ({
           id: sub.substitution.toLowerCase().replace(/\s/g, "-"),
           name: sub.substitution,
           amount: item.quantity ? `(${item.quantity})` : "",
@@ -53,8 +69,9 @@ const Ingredients: React.FC<IngredientsProps> = ({ onContinueToInstructions, onB
   });
 
   useEffect(() => {
-    setIngredients(transformData(recipeData, selected)); 
+    setIngredients(transformData(recipeData as DemoRecipes, selected)); 
   }, [selected]);
+
   const toggleIngredient = (id: string) => {
     setIngredients((prev) =>
       prev.map((ingredient) =>
