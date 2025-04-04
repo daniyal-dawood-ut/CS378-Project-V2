@@ -85,3 +85,19 @@
     margin-bottom: 1rem;
     text-align: center;
   }
+  
+  .scrapedContent {
+    margin-top: 20px;
+    max-width: 100%;
+    overflow: auto;
+  }
+  
+  .contentContainer {
+    max-height: 300px;
+    overflow-y: auto;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    white-space: pre-wrap;
+  }
