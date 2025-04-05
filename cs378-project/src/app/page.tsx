@@ -74,7 +74,14 @@ const [timerStates, setTimerStates] = useState<{
 
 // Initialize timer states
 useEffect(() => {
-  const initialTimerStates = {};
+  const initialTimerStates: {
+    [key: number]: {
+      timeRemaining: number;
+      isPaused: boolean;
+      isActive: boolean;
+    };
+  } = {};
+  
   recipeSteps.forEach((step, index) => {
     initialTimerStates[index + 1] = {
       timeRemaining: step.timerDuration * 60 || 0,
@@ -83,7 +90,7 @@ useEffect(() => {
     };
   });
   setTimerStates(initialTimerStates);
-}, [recipeSteps]);
+}, [selectedRecipe]); // Only re-run when selectedRecipe changes
 
 // Timer control functions
 const pauseTimer = (stepNumber: number) => {

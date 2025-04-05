@@ -42,7 +42,7 @@ export default function AddRecipeModal({ onClose }: AddRecipeModalProps) {
               "title": "<step title>",
               "description": "<step description>",
               "imageUrl": "/images/spaghetti_carbonara/1.jpg",
-              "timerDuration": <duration in seconds>,
+              "timerDuration": <duration in minutes>,
               "demonstration": "<demonstration text>",
               "helpfulTip": "<helpful tip text>"
             },
