@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import RecipeStep from "../components/RecipeStep";
 import Ingredients from "../components/Ingredients";
 import StartRecipe from "../components/StartRecipe";
@@ -62,6 +62,60 @@ export default function Home() {
     setCurrentStepIndex(0);
     setCurrentView("start");
   }
+
+  // In your parent component
+const [timerStates, setTimerStates] = useState<{
+  [stepNumber: number]: {
+    timeRemaining: number;
+    isPaused: boolean;
+    isActive: boolean;
+  };
+}>({});
+
+// Initialize timer states
+useEffect(() => {
+  const initialTimerStates = {};
+  recipeSteps.forEach((step, index) => {
+    initialTimerStates[index + 1] = {
+      timeRemaining: step.timerDuration * 60 || 0,
+      isPaused: false,
+      isActive: step.timerDuration > 0
+    };
+  });
+  setTimerStates(initialTimerStates);
+}, [recipeSteps]);
+
+// Timer control functions
+const pauseTimer = (stepNumber: number) => {
+  setTimerStates(prev => ({
+    ...prev,
+    [stepNumber]: {
+      ...prev[stepNumber],
+      isPaused: true
+    }
+  }));
+};
+
+const resumeTimer = (stepNumber: number) => {
+  setTimerStates(prev => ({
+    ...prev,
+    [stepNumber]: {
+      ...prev[stepNumber],
+      isPaused: false
+    }
+  }));
+};
+
+const updateTimer = (stepNumber: number, newTime: number) => {
+  setTimerStates(prev => ({
+    ...prev,
+    [stepNumber]: {
+      ...prev[stepNumber],
+      timeRemaining: newTime
+    }
+  }));
+};
+
   
 
   return (
@@ -103,7 +157,12 @@ export default function Home() {
               onNavigateHome={handleNavigateHome}
               onStepSelect={handleStepSelect}
               allStepTitles={recipeSteps.map((step) => step.title)}
+              timerState={timerStates[currentStepIndex + 1]}
+              onPauseTimer={() => pauseTimer(currentStepIndex + 1)}
+              onResumeTimer={() => resumeTimer(currentStepIndex + 1)}
+              onUpdateTimer={(time) => updateTimer(currentStepIndex + 1, time)}
             />
+
           </div>
         </>
       )}

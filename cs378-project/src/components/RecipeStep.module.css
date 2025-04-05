@@ -281,4 +281,39 @@
   align-items: center;
   margin-bottom: 20px;
 }
+.timerIcon {
+  width: 24px;
+  height: 24px;
+  fill: #555;
+  margin-right: 10px;
+}
 
+.timerContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.timerControls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.timerButton {
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 5px 10px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.timerButton:hover {
+  background-color: #3a7bc8;
+}

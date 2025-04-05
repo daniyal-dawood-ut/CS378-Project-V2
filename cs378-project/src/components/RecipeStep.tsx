@@ -5,12 +5,13 @@ import styles from "./RecipeStep.module.css";
 import { FaRegStar, FaStar } from "react-icons/fa";
 
 interface RecipeStepProps {
+  // Existing props
   stepNumber: number;
   totalSteps: number;
   title: string;
   description: string;
   imageUrl: string;
-  timerDuration?: number; // in seconds
+  timerDuration?: number;
   demonstration: string;
   helpfulTip: string;
   onNext?: () => void;
@@ -18,9 +19,20 @@ interface RecipeStepProps {
   allStepTitles?: string[];
   onNavigateHome?: () => void;
   onStepSelect?: (stepNumber: number) => void;
+  // New timer state props
+  timerState: {
+    timeRemaining: number;
+    isPaused: boolean;
+    isActive: boolean;
+  };
+  onPauseTimer: () => void;
+  onResumeTimer: () => void;
+  onUpdateTimer: (time: number) => void;
 }
 
+
 const RecipeStep: React.FC<RecipeStepProps> = ({
+  // Existing props
   stepNumber,
   totalSteps,
   title,
@@ -34,9 +46,17 @@ const RecipeStep: React.FC<RecipeStepProps> = ({
   allStepTitles = [],
   onNavigateHome,
   onStepSelect,
+  // New timer state props
+  timerState,
+  onPauseTimer,
+  onResumeTimer,
+  onUpdateTimer,
 }) => {
-  const [timeRemaining, setTimeRemaining] = useState(timerDuration);
-  const [timerActive, setTimerActive] = useState(timerDuration > 0);
+  // Remove these states as they're now passed as props
+  // const [timeRemaining, setTimeRemaining] = useState(timerDuration);
+  // const [timerActive, setTimerActive] = useState(timerDuration > 0);
+  
+  // Keep other states
   const [menuOpen, setMenuOpen] = useState(false);
   const [isFlipped, setIsFlipped] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
@@ -46,22 +66,38 @@ const RecipeStep: React.FC<RecipeStepProps> = ({
   });
   const menuRef = useRef<HTMLDivElement>(null);
 
+  // Update timer effect to use the props
   useEffect(() => {
     let interval: NodeJS.Timeout;
-    if (timerActive && timeRemaining > 0) {
+    if (timerState.isActive && timerState.timeRemaining > 0 && !timerState.isPaused) {
       interval = setInterval(() => {
-        setTimeRemaining((prevTime) => prevTime - 1);
+        onUpdateTimer(timerState.timeRemaining - 1);
       }, 1000);
-    } else if (timeRemaining === 0 && timerActive) {
-      setTimerActive(false);
+    } else if (timerState.timeRemaining === 0 && timerState.isActive) {
+      // Timer finished
     }
     return () => clearInterval(interval);
-  }, [timerActive, timeRemaining]);
+  }, [timerState.isActive, timerState.timeRemaining, timerState.isPaused, onUpdateTimer]);
 
-  // Reset to front side whenever step changes
-  useEffect(() => {
-    setIsFlipped(false);
-  }, [stepNumber]);
+
+  // useEffect(() => {
+  //   let interval: NodeJS.Timeout;
+  //   if (timerActive && timeRemaining > 0 && !isPaused) {
+  //     interval = setInterval(() => {
+  //       setTimeRemaining((prevTime) => prevTime - 1);
+  //     }, 1000);
+  //   } else if (timeRemaining === 0 && timerActive) {
+  //     setTimerActive(false);
+  //   }
+  //   return () => clearInterval(interval);
+  // }, [timerActive, timeRemaining, isPaused]);
+  
+  
+  // useEffect(() => {
+  //   setIsFlipped(false);
+  //   setTimeRemaining(timerDuration * 60); // Reset timer when step changes
+  //   setTimerActive(timerDuration > 0);
+  // }, [stepNumber, timerDuration]);
 
   const formatTime = (seconds: number) => {
     if (seconds <= 0) return null;
@@ -85,6 +121,10 @@ const RecipeStep: React.FC<RecipeStepProps> = ({
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
+
+  // const toggleTimer = () => {
+  //   setIsPaused(!isPaused);
+  // };
 
   const handleFlip = () => {
     setIsFlipped((prev) => !prev);
@@ -156,16 +196,27 @@ const RecipeStep: React.FC<RecipeStepProps> = ({
             />
             </div>
             <p className={styles.description}>{description}</p>
-            {timeRemaining > 0 && (
-              <div className={styles.timerContainer}>
-                <svg viewBox="0 0 24 24" width="24" height="24" className={styles.timerIcon}>
-                  <path d="M13 3h-2v10h2V3zm4.83 2.17l-1.42 1.42C17.99 7.86 19 9.81 19 12c0 3.87-3.13 7-7 7s-7-3.13-7-7c0-2.19 1.01-4.14 2.58-5.42L6.17 5.17C4.23 6.82 3 9.26 3 12c0 4.97 4.03 9 9 9s9-4.03 9-9c0-2.74-1.23-5.18-3.17-6.83z" />
+            {timerState.timeRemaining > 0 && (
+            <div className={styles.timerContainer}>
+              <div className={styles.timerControls}>
+                <svg xmlns="http://www.w3.org/2000/svg"  width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+                  <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z"/>
+                  <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0"/>
                 </svg>
-                <div className={styles.timerText}>{formatTime(timeRemaining)}</div>
+                <div className={styles.timerText}>{formatTime(timerState.timeRemaining)}</div>
+                <button 
+                  className={styles.timerButton} 
+                  onClick={(e) => {
+                    e.stopPropagation(); // Prevent card flip
+                    timerState.isPaused ? onResumeTimer() : onPauseTimer();
+                  }}
+                >
+                  {timerState.isPaused ? "Resume" : "Pause"}
+                </button>
               </div>
-            )}
+            </div>
+          )}
           </div>
-
           {/* Back Side */}
           <div className={`${styles.cardFace} ${styles.cardBack}`} onClick={handleFlip}>
             <h2 className={styles.title}>Demo &amp; Tips</h2>
