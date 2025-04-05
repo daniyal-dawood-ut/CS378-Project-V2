@@ -53,6 +53,7 @@ export default function LandingPage({ onSelectRecipe }: LandingPageProps) {
             >
               <div className={styles.imageWrapper}>
                 <img
+                // NOT GONNA WORK ATM FOR NEW RECIPES BECAUSE WE DONT HAVE COVER IMAGE FOR THEM
                   src={`./images/${formattedRecipe}/cover_photo.jpg`}
                   alt={recipe.recipeName}
                   className={styles.recipeImage}

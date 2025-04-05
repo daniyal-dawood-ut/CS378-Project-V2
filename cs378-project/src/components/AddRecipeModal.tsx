@@ -41,7 +41,7 @@ export default function AddRecipeModal({ onClose }: AddRecipeModalProps) {
               "totalSteps": <total>,
               "title": "<step title>",
               "description": "<step description>",
-              "imageUrl": "INTENTIONALLY LEAVE NULL",
+              "imageUrl": "/images/spaghetti_carbonara/1.jpg",
               "timerDuration": <duration in seconds>,
               "demonstration": "<demonstration text>",
               "helpfulTip": "<helpful tip text>"
@@ -51,7 +51,7 @@ export default function AddRecipeModal({ onClose }: AddRecipeModalProps) {
         }
       ]
     }
-    Provide only the JSON output. You will need to make up your own substitutions, demonstration, and helpfulTip texts based on what you think would work. Create the imageURL field but leave it null.`;
+    Provide only the JSON output. No other text should be included. Your output will be directly added to a JSON file, therefore do not wrap it in quotation marks or any other text. Output only the pure JSON. You will need to make up your own substitutions, demonstration, and helpfulTip texts based on what you think would work. Every imageURL field should match the text provided.`;
 
     try {
       const response = await openai.chat.completions.create({
@@ -123,15 +123,13 @@ export default function AddRecipeModal({ onClose }: AddRecipeModalProps) {
         setMessage("URL scraped successfully! Processing with ChatGPT...");
         const recipeJson = await processWithChatGPT(scrapeResult.markdown || '');
         
-        // TODO: Uncomment this when we have the server-side endpoint
-        // Add null check before passing to saveRecipeToFile
-        // if (recipeJson) {
-        //   setMessage("Recipe processed! Saving to file...");
-        //   await saveRecipeToFile(recipeJson);
-        //   setMessage("Recipe saved successfully! Check browser console (F12) for structured recipe data.");
-        // } else {
-        //   setMessage("Failed to process recipe. Please try again with a different URL.");
-        // }
+        if (recipeJson) {
+          setMessage("Recipe processed! Saving to file...");
+          await saveRecipeToFile(recipeJson);
+          setMessage("Recipe saved successfully!");
+        } else {
+          setMessage("Failed to process recipe. Please try again with a different URL.");
+        }
       }
     } catch (error) {
       console.error('Error processing recipe:', error);
