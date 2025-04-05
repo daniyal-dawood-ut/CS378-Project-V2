@@ -4,6 +4,106 @@ import styles from "./Ingredients.module.css";
 import recipeData from "../../demo_recipes.json";
 import { FaRegStar, FaStar } from "react-icons/fa";
 
+// Helper function to format the adjusted number
+const formatAdjustedNumber = (num: number): string => {
+    if (isNaN(num)) return "NaN";
+    if (num === 0) return "0";
+
+    // Use a small val for float comparisons
+    const precision = 10000;
+    const roundedNum = Math.round(num * precision) / precision;
+
+    const floor = Math.floor(roundedNum);
+    const remainder = roundedNum - floor;
+
+    let fractionStr = "";
+
+    // Check for common fractions
+    if (Math.abs(remainder) < 1 / precision) fractionStr = ""; // It's an integer
+    else if (Math.abs(remainder - 1/2) < 1 / precision) fractionStr = "1/2";
+    else if (Math.abs(remainder - 1/4) < 1 / precision) fractionStr = "1/4";
+    else if (Math.abs(remainder - 3/4) < 1 / precision) fractionStr = "3/4";
+    else if (Math.abs(remainder - 1/3) < 1 / precision) fractionStr = "1/3";
+    else if (Math.abs(remainder - 2/3) < 1 / precision) fractionStr = "2/3";
+    else if (Math.abs(remainder - 1/8) < 1 / precision) fractionStr = "1/8";
+    else if (Math.abs(remainder - 3/8) < 1 / precision) fractionStr = "3/8";
+    else if (Math.abs(remainder - 5/8) < 1 / precision) fractionStr = "5/8";
+    else if (Math.abs(remainder - 7/8) < 1 / precision) fractionStr = "7/8";
+    // Honestly idk if this is the best way to do this, but it works for now
+
+    if (fractionStr) {
+        // Return mixed number or just the fraction
+        return floor > 0 ? `${floor} ${fractionStr}` : fractionStr;
+    } else if (remainder === 0) {
+        // Return just the integer part
+        return floor.toString();
+    } else {
+        // Fallback to decimal if no common fraction matches
+        return roundedNum.toFixed(1);
+    }
+};
+
+// Updated Helper function to parse and adjust quantity, handling fractions
+const adjustQuantity = (quantity: string | undefined, ratio: number): string => {
+    if (!quantity) return "";
+
+    // Regex captures:
+    // 1. Mixed fraction (whole num, numerator, denominator)
+    // 2. Simple fraction (numerator, denominator)
+    // 3. Decimal or Integer
+    // 4. Any sequence of non-numeric, non-whitespace, non-slash characters (units, words like 'to')
+    // 5. Whitespace
+    // 6. Slash (to preserve it if it's not part of a matched fraction)
+    const pattern = /(\d+)\s+(\d+)\/(\d+)|(\d+)\/(\d+)|(\d*\.?\d+)|([^\d\s\/]+)|(\s+)|(\/)/g;
+
+    let result = "";
+    let match;
+
+    while ((match = pattern.exec(quantity)) !== null) {
+        const [
+            fullMatch,
+            whole, num1, den1, // Group 1: Mixed fraction
+            num2, den2,       // Group 2: Simple fraction
+            basicNum,         // Group 3: Basic number
+            otherText,        // Group 4: Unit/Word
+            whitespace,       // Group 5: Whitespace
+            slash             // Group 6: Slash
+        ] = match;
+
+        let value = NaN;
+
+        if (whole && num1 && den1) { // Matched mixed fraction
+            value = parseInt(whole, 10) + parseInt(num1, 10) / parseInt(den1, 10);
+        } else if (num2 && den2) { // Matched simple fraction
+            value = parseInt(num2, 10) / parseInt(den2, 10);
+        } else if (basicNum) { // Matched basic number
+            value = parseFloat(basicNum);
+        }
+
+        if (!isNaN(value)) { // If it was a numeric part
+            const adjustedValue = value * ratio;
+            result += formatAdjustedNumber(adjustedValue);
+        } else if (otherText) { // Append non-numeric text
+            result += otherText;
+        } else if (whitespace) { // Append whitespace
+            result += whitespace;
+        } else if (slash) { // Append slash if captured separately
+             result += slash;
+        } else {
+             // Fallback if something unexpected matched (shouldn't normally happen)
+             result += fullMatch;
+        }
+    }
+
+    // Handle cases where the regex might fail or the input was non-standard
+    if (result === "" && quantity !== "") {
+         console.warn("adjustQuantity parsing might have failed for:", quantity);
+         return quantity; // Return original as a safe fallback
+    }
+
+    return result; // Don't trim here, preserve internal spaces like "1 1/2 cups"
+};
+
 interface DemoIngredient {
   item: string;
   quantity?: string;
@@ -12,6 +112,7 @@ interface DemoIngredient {
 
 interface DemoRecipe {
   name: string;
+  serving_size: number;
   ingredients: DemoIngredient[];
   steps: unknown[];
 }
@@ -20,60 +121,138 @@ interface DemoRecipes {
   recipes: DemoRecipe[];
 }
 
+interface IngredientAlternative {
+    id: string;
+    name: string;
+    baseAmount: string;
+    currentAmount: string;
+    selected: boolean;
+}
+
 interface Ingredient {
   id: string;
   name: string;
-  amount: string;
+  baseAmount: string;
+  currentAmount: string;
   selected: boolean;
-  alternatives?: {
-    id: string;
-    name: string;
-    amount: string;
-    selected: boolean;
-  }[];
+  alternatives?: IngredientAlternative[];
   showAlternatives?: boolean;
+}
+
+interface TransformedData {
+  ingredients: Ingredient[];
+  servingSize: number;
 }
 
 interface IngredientsProps {
   onContinueToInstructions: () => void;
   onBack: () => void;
-  selected: string; 
+  selected: string;
 }
 
-const transformData = (json: DemoRecipes, selectedRecipe: string): Ingredient[] => {
+const transformData = (json: DemoRecipes, selectedRecipe: string): TransformedData | null => {
   const recipe = json.recipes.find((r) => r.name === selectedRecipe);
-  if (!recipe) return [];
-  return recipe.ingredients.map((item) => ({
-    id: item.item.toLowerCase().replace(/\s/g, "-"),
-    name: item.item,
-    amount: item.quantity ? `(${item.quantity})` : "",
-    selected: false,
-    alternatives: item.substitutions
-      ? item.substitutions.map((sub) => ({
-          id: sub.substitution.toLowerCase().replace(/\s/g, "-"),
-          name: sub.substitution,
-          amount: item.quantity ? `(${item.quantity})` : "",
+  if (!recipe) return null;
+
+  const baseIngredients = recipe.ingredients.map((item) => {
+      const baseAmount = item.quantity ? `(${item.quantity})` : "";
+      return {
+          id: item.item.toLowerCase().replace(/\s/g, "-"),
+          name: item.item,
+          baseAmount: baseAmount,
+          currentAmount: baseAmount,
           selected: false,
-        }))
-      : [],
-    showAlternatives: false,
-  }));
+          alternatives: item.substitutions
+              ? item.substitutions.map((sub) => {
+                  const altBaseAmount = item.quantity ? `(${item.quantity})` : "";
+                  return {
+                      id: sub.substitution.toLowerCase().replace(/\s/g, "-"),
+                      name: sub.substitution,
+                      baseAmount: altBaseAmount,
+                      currentAmount: altBaseAmount,
+                      selected: false,
+                  };
+              })
+              : [],
+          showAlternatives: false,
+      };
+  });
+
+  return {
+    ingredients: baseIngredients,
+    servingSize: recipe.serving_size || 1,
+  };
 };
 
 const Ingredients: React.FC<IngredientsProps> = ({ onContinueToInstructions, onBack, selected }) => {
-  const [ingredients, setIngredients] = useState<Ingredient[]>([]);
+  const [baseIngredients, setBaseIngredients] = useState<Ingredient[]>([]);
+  const [currentIngredients, setCurrentIngredients] = useState<Ingredient[]>([]);
+  const [baseServingSize, setBaseServingSize] = useState<number>(1);
+  const [currentServingSize, setCurrentServingSize] = useState<number>(1);
+  const [servingInput, setServingInput] = useState<string>("1");
+
   const [showSettings, setShowSettings] = useState(false);
   const [isFavorite, setIsFavorite] = useState<boolean>(() => {
-    const stored = localStorage.getItem("isFavorite");
+    const stored = localStorage.getItem(`isFavorite_${selected}`);
     return stored ? JSON.parse(stored) : false;
   });
 
   useEffect(() => {
-    setIngredients(transformData(recipeData as DemoRecipes, selected)); 
+    const data = transformData(recipeData as DemoRecipes, selected);
+    if (data) {
+        setBaseIngredients(data.ingredients);
+        setCurrentIngredients(data.ingredients);
+        setBaseServingSize(data.servingSize);
+        setCurrentServingSize(data.servingSize);
+        setServingInput(data.servingSize.toString());
+    }
   }, [selected]);
 
+  useEffect(() => {
+    if (baseIngredients.length === 0) return; // Wait for ingredients to load
+
+    // Use 1 as minimum divisor to prevent division by zero errors if base is 0
+    const safeBaseServingSize = baseServingSize === 0 ? 1 : baseServingSize;
+    const ratio = currentServingSize / safeBaseServingSize;
+
+    const stripParens = (s: string) => s.startsWith('(') && s.endsWith(')') ? s.slice(1, -1) : s;
+    // Don't add parens if the result is empty or just whitespace
+    const addParens = (s: string) => s && s.trim() ? `(${s.trim()})` : "";
+
+    setCurrentIngredients(prevIngredients =>
+      baseIngredients.map(baseIng => {
+          // Find corresponding previous ingredient to preserve selection/dropdown state
+          const prevIng = prevIngredients.find(pi => pi.id === baseIng.id) || baseIng;
+          // Strip parens, adjust, add parens back
+          const strippedBaseAmount = stripParens(baseIng.baseAmount);
+          const adjustedAmountStr = adjustQuantity(strippedBaseAmount, ratio);
+          const finalAmount = addParens(adjustedAmountStr);
+
+          return {
+            ...prevIng, // Keep existing states like 'selected', 'showAlternatives'
+            name: baseIng.name, // Ensure name is from base
+            baseAmount: baseIng.baseAmount, // Keep original base amount
+            currentAmount: finalAmount, // Set the new adjusted amount
+            alternatives: baseIng.alternatives?.map(baseAlt => {
+                const prevAlt = prevIng.alternatives?.find(pa => pa.id === baseAlt.id) || baseAlt;
+                 // Strip parens, adjust, add parens back for alternatives
+                const strippedAltBaseAmount = stripParens(baseAlt.baseAmount);
+                const adjustedAltAmountStr = adjustQuantity(strippedAltBaseAmount, ratio);
+                const finalAltAmount = addParens(adjustedAltAmountStr);
+                return {
+                    ...prevAlt, // Keep existing states
+                    name: baseAlt.name,
+                    baseAmount: baseAlt.baseAmount,
+                    currentAmount: finalAltAmount,
+                };
+            }),
+          };
+      })
+    );
+  }, [currentServingSize, baseServingSize, baseIngredients]); // Dependencies
+
   const toggleIngredient = (id: string) => {
-    setIngredients((prev) =>
+    setCurrentIngredients((prev) =>
       prev.map((ingredient) =>
         ingredient.id === id
           ? {
@@ -87,7 +266,7 @@ const Ingredients: React.FC<IngredientsProps> = ({ onContinueToInstructions, onB
   };
 
   const toggleAlternative = (ingredientId: string, alternativeId: string) => {
-    setIngredients((prev) =>
+     setCurrentIngredients((prev) =>
       prev.map((ingredient) =>
         ingredient.id === ingredientId
           ? {
@@ -104,17 +283,36 @@ const Ingredients: React.FC<IngredientsProps> = ({ onContinueToInstructions, onB
   };
 
   const toggleDropdown = (id: string) => {
-    setIngredients((prev) =>
+    setCurrentIngredients((prev) =>
       prev.map((ingredient) =>
         ingredient.id === id ? { ...ingredient, showAlternatives: !ingredient.showAlternatives } : ingredient
       )
     );
   };
 
+  const handleServingChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      const inputValue = event.target.value;
+      setServingInput(inputValue);
+
+      const newSize = parseInt(inputValue, 10);
+
+      if (!isNaN(newSize) && newSize >= 0) {
+          setCurrentServingSize(newSize);
+      } else if (inputValue === "" || isNaN(newSize)) {
+          setCurrentServingSize(0);
+      }
+  };
+
+  const adjustServingSize = (delta: number) => {
+      const newNumericSize = Math.max(0, currentServingSize + delta);
+      setCurrentServingSize(newNumericSize);
+      setServingInput(newNumericSize.toString());
+  };
+
   const toggleFavorite = () => {
     const newFavorite = !isFavorite;
     setIsFavorite(newFavorite);
-    localStorage.setItem("isFavorite", JSON.stringify(newFavorite));
+    localStorage.setItem(`isFavorite_${selected}`, JSON.stringify(newFavorite));
   };
 
   return (
@@ -132,8 +330,32 @@ const Ingredients: React.FC<IngredientsProps> = ({ onContinueToInstructions, onB
 
       <h1 className={styles.title}>Ingredients</h1>
 
+      <div className={styles.servingControl}>
+          <span className={styles.servingLabel}>Servings:</span>
+          <button onClick={() => adjustServingSize(-1)} disabled={currentServingSize <= 0}>-</button>
+          <input
+              type="number"
+              min="0"
+              value={servingInput}
+              onChange={handleServingChange}
+              className={styles.servingInput}
+              onBlur={(e) => {
+                if (e.target.value !== "0" && e.target.value.startsWith("0")) {
+                    const correctedValue = parseInt(e.target.value, 10);
+                    if (!isNaN(correctedValue)) {
+                        setServingInput(correctedValue.toString());
+                    }
+                } else if (e.target.value === "") {
+                    setServingInput("0");
+                    setCurrentServingSize(0);
+                }
+              }}
+           />
+          <button onClick={() => adjustServingSize(1)}>+</button>
+      </div>
+
       <div className={styles.ingredientsList}>
-        {ingredients.map((ingredient) => (
+        {currentIngredients.map((ingredient) => (
           <div key={ingredient.id} className={styles.ingredientWrapper}>
             <div className={styles.ingredientItem}>
               <label className={styles.ingredientLabel}>
@@ -144,17 +366,17 @@ const Ingredients: React.FC<IngredientsProps> = ({ onContinueToInstructions, onB
                   className={styles.checkbox}
                 />
                 <span className={styles.ingredientText}>
-                  {ingredient.name} {ingredient.amount}
+                  {ingredient.name} {ingredient.currentAmount}
                 </span>
               </label>
               {ingredient.alternatives && ingredient.alternatives.length > 0 && (
                 <button
                   className={`${styles.dropdownButton} ${
-                    ingredient.showAlternatives ? styles.dropdownOpen : styles.dropdownClosed
+                    ingredient.showAlternatives ? styles.dropdownOpen : ''
                   }`}
                   onClick={() => toggleDropdown(ingredient.id)}
                 >
-                  ►
+                  {ingredient.showAlternatives ? '▼' : '►'}
                 </button>
               )}
             </div>
@@ -170,7 +392,7 @@ const Ingredients: React.FC<IngredientsProps> = ({ onContinueToInstructions, onB
                         className={styles.checkbox}
                       />
                       <span className={styles.alternativeText}>
-                        {alternative.name} {alternative.amount}
+                        {alternative.name} {alternative.currentAmount}
                       </span>
                     </label>
                   </div>
@@ -187,19 +409,19 @@ const Ingredients: React.FC<IngredientsProps> = ({ onContinueToInstructions, onB
         </button>
       </div>
 
-      {/* Settings Modal */}
       {showSettings && (
         <div className={styles.modalOverlay} onClick={() => setShowSettings(false)}>
           <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+            <h2 style={{ color: '#333' }}>Settings</h2>
             <div className={styles.settingsRow}>
-              <span style={{ color: "#000" }}>Add recipe to favorites</span>
+              <span style={{ color: "#333" }}>Add recipe to favorites</span>
               {isFavorite ? (
-                <FaStar onClick={toggleFavorite} style={{ cursor: "pointer", color: "yellow" }} size={24} />
+                <FaStar onClick={toggleFavorite} style={{ cursor: "pointer", color: "#FFD700" }} size={24} />
               ) : (
-                <FaRegStar onClick={toggleFavorite} style={{ cursor: "pointer", color: "#333" }} size={24} />
+                <FaRegStar onClick={toggleFavorite} style={{ cursor: "pointer", color: "#666" }} size={24} />
               )}
             </div>
-            <button onClick={() => setShowSettings(false)}>Close</button>
+            <button onClick={() => setShowSettings(false)} className={styles.closeSettingsButton}>Close</button>
           </div>
         </div>
       )}

@@ -2,34 +2,45 @@
   "recipes": [
     {
       "name": "Spaghetti Carbonara",
+      "serving_size": 4,
       "ingredients": [
         {
           "item": "Spaghetti",
           "quantity": "2 cups",
           "substitutions": [
-            { "substitution": "Gluten-free spaghetti" }
+            {
+              "substitution": "Gluten-free spaghetti"
+            }
           ]
         },
         {
           "item": "Egg yolks",
           "quantity": "3 tbsp",
           "substitutions": [
-            { "substitution": "Silken tofu" }
+            {
+              "substitution": "Silken tofu"
+            }
           ]
         },
         {
           "item": "Pancetta",
           "quantity": "1/2 cup",
           "substitutions": [
-            { "substitution": "Turkey bacon" },
-            { "substitution": "Mushrooms" }
+            {
+              "substitution": "Turkey bacon"
+            },
+            {
+              "substitution": "Mushrooms"
+            }
           ]
         },
         {
           "item": "Parmesan cheese",
           "quantity": "1/2 cup",
           "substitutions": [
-            { "substitution": "Nutritional yeast" }
+            {
+              "substitution": "Nutritional yeast"
+            }
           ]
         },
         {
@@ -110,36 +121,51 @@
     },
     {
       "name": "Chocolate Chip Cookies",
+      "serving_size": 12,
       "ingredients": [
         {
           "item": "All-purpose flour",
           "quantity": "2 cups",
           "substitutions": [
-            { "substitution": "Almond flour" },
-            { "substitution": "Gluten-free flour" }
+            {
+              "substitution": "Almond flour"
+            },
+            {
+              "substitution": "Gluten-free flour"
+            }
           ]
         },
         {
           "item": "Butter",
           "quantity": "1 cup",
           "substitutions": [
-            { "substitution": "Coconut oil" },
-            { "substitution": "Margarine" }
+            {
+              "substitution": "Coconut oil"
+            },
+            {
+              "substitution": "Margarine"
+            }
           ]
         },
         {
           "item": "Brown sugar",
-          "quantity": "¾ cup",
+          "quantity": "3/4 cup",
           "substitutions": [
-            { "substitution": "Coconut sugar" }
+            {
+              "substitution": "Coconut sugar"
+            }
           ]
         },
         {
           "item": "White sugar",
-          "quantity": "¾ cup",
+          "quantity": "3/4 cup",
           "substitutions": [
-            { "substitution": "Honey (1/2 cup)" },
-            { "substitution": "Maple syrup (1/2 cup)" }
+            {
+              "substitution": "Honey (1/2 cup)"
+            },
+            {
+              "substitution": "Maple syrup (1/2 cup)"
+            }
           ]
         },
         {
@@ -156,14 +182,18 @@
         },
         {
           "item": "Salt",
-          "quantity": "½ tsp"
+          "quantity": "1/2 tsp"
         },
         {
           "item": "Chocolate chips",
           "quantity": "1 cup",
           "substitutions": [
-            { "substitution": "Carob chips" },
-            { "substitution": "Dark chocolate chunks" }
+            {
+              "substitution": "Carob chips"
+            },
+            {
+              "substitution": "Dark chocolate chunks"
+            }
           ]
         }
       ],
@@ -242,13 +272,18 @@
     },
     {
       "name": "Hummingbird Muffins",
+      "serving_size": 12,
       "ingredients": [
         {
           "item": "All-purpose flour",
           "quantity": "2 cups",
           "substitutions": [
-            { "substitution": "Whole wheat flour" },
-            { "substitution": "Gluten-free flour" }
+            {
+              "substitution": "Whole wheat flour"
+            },
+            {
+              "substitution": "Gluten-free flour"
+            }
           ]
         },
         {
@@ -257,7 +292,7 @@
         },
         {
           "item": "Salt",
-          "quantity": "½ tsp"
+          "quantity": "1/2 tsp"
         },
         {
           "item": "Cinnamon",
@@ -265,23 +300,29 @@
         },
         {
           "item": "Brown sugar",
-          "quantity": "¾ cup",
+          "quantity": "3/4 cup",
           "substitutions": [
-            { "substitution": "Coconut sugar" }
+            {
+              "substitution": "Coconut sugar"
+            }
           ]
         },
         {
           "item": "Eggs",
           "quantity": "2",
           "substitutions": [
-            { "substitution": "Flax eggs" }
+            {
+              "substitution": "Flax eggs"
+            }
           ]
         },
         {
           "item": "Vegetable oil",
-          "quantity": "½ cup",
+          "quantity": "1/2 cup",
           "substitutions": [
-            { "substitution": "Coconut oil" }
+            {
+              "substitution": "Coconut oil"
+            }
           ]
         },
         {
@@ -294,16 +335,20 @@
         },
         {
           "item": "Crushed pineapple",
-          "quantity": "½ cup",
+          "quantity": "1/2 cup",
           "substitutions": [
-            { "substitution": "Applesauce" }
+            {
+              "substitution": "Applesauce"
+            }
           ]
         },
         {
           "item": "Chopped pecans",
-          "quantity": "½ cup",
+          "quantity": "1/2 cup",
           "substitutions": [
-            { "substitution": "Walnuts" }
+            {
+              "substitution": "Walnuts"
+            }
           ]
         }
       ],
