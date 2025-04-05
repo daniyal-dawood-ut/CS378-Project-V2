@@ -18,7 +18,9 @@ const formatAdjustedNumber = (num: number): string => {
 
     let fractionStr = "";
 
-    // Check for common fractions
+    // Check for common fractions, rn im checking for something like "1/2" instead of "½"
+    // The latter (½) is called a vulgar function and more memory efficient
+    // It's better to account for that instead, but I didn't think about that when I started haha
     if (Math.abs(remainder) < 1 / precision) fractionStr = ""; // It's an integer
     else if (Math.abs(remainder - 1/2) < 1 / precision) fractionStr = "1/2";
     else if (Math.abs(remainder - 1/4) < 1 / precision) fractionStr = "1/4";
