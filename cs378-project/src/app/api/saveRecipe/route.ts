@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
-import { put, head } from '@vercel/blob'; // Import blob functions
+// Keep blob imports commented out for now if you want, or remove temporarily
+// import { put, head } from '@vercel/blob';
 
 // Define the structure of the recipe data file
 interface RecipeData {
@@ -8,9 +9,16 @@ interface RecipeData {
 }
 
 // Define the path/name for the blob file - USE FILENAME ONLY
-const BLOB_FILENAME = 'demo_recipes.json';
+// const BLOB_FILENAME = 'demo_recipes.json';
 
 export async function POST(request: Request) {
+  // Add a log to confirm the function is entered on Vercel
+  console.log("--- /api/saveRecipe POST handler entered ---");
+
+  // Immediately return a simple success response
+  return NextResponse.json({ message: 'API route test successful' }, { status: 200 });
+
+  /* --- Temporarily commented out original logic ---
   try {
     // 1. Parse the incoming request body
     const body = await request.json();
@@ -94,4 +102,11 @@ export async function POST(request: Request) {
     // Add more specific error checks if needed (e.g., for Blob 'put' errors)
     return NextResponse.json({ message: 'Internal Server Error processing recipe save' }, { status: 500 });
   }
+  */
+}
+
+// You can also add a simple GET handler for testing if the route file is accessible at all
+export async function GET(request: Request) {
+    console.log("--- /api/saveRecipe GET handler entered ---");
+    return NextResponse.json({ message: 'GET request received' }, { status: 200 });
 }
