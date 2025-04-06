@@ -7,8 +7,8 @@ interface RecipeData {
   recipes: any[]; // Using 'any' for simplicity, define a stricter type if needed
 }
 
-// Define the path/name for the blob file
-const BLOB_FILENAME = 'https://ddalzhihftsbuuka.public.blob.vercel-storage.com/demo_recipes.json';
+// Define the path/name for the blob file - USE FILENAME ONLY
+const BLOB_FILENAME = 'demo_recipes.json';
 
 export async function POST(request: Request) {
   try {
@@ -41,11 +41,11 @@ export async function POST(request: Request) {
     // 3. Read the existing data from Vercel Blob
     let existingData: RecipeData = { recipes: [] };
     try {
-      // Check if the blob exists first and get its metadata (including URL)
+      // Check if the blob exists first using the FILENAME
       const blobMetadata = await head(BLOB_FILENAME); // Throws error if not found
 
       // If it exists, fetch its content using the URL from metadata
-      const response = await fetch(blobMetadata.url);
+      const response = await fetch(blobMetadata.url); // Use the URL returned by head()
       if (!response.ok) {
         throw new Error(`Failed to fetch blob content: ${response.statusText}`);
       }
@@ -61,15 +61,14 @@ export async function POST(request: Request) {
       }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      // If the blob doesn't exist (head throws a 404-like error), we start with an empty array.
-      // Check if the error indicates 'not found'. The Vercel Blob SDK might throw specific error types,
-      // or you might need to check error properties like status or code if available.
-      // For now, we log a general warning for any error during head/fetch.
-      if (error.status === 404) { // Example check, adjust based on actual error structure
+      // Check specifically for not found errors from head()
+      // Note: The actual error structure might differ, check Vercel Blob SDK docs or logs
+      if (error && (error.status === 404 || error.code === 'NOT_FOUND' || error.message?.includes('not found'))) {
           console.warn(`Blob ${BLOB_FILENAME} not found. Starting with empty recipes.`);
       } else {
           console.error(`Error reading blob ${BLOB_FILENAME}:`, error);
-          // Consider if you should return 500 here or proceed with empty data
+          // Decide if you should proceed or return an error response
+          // return NextResponse.json({ message: 'Failed to read existing recipe data' }, { status: 500 });
       }
       // existingData remains { recipes: [] }
     }
@@ -77,7 +76,7 @@ export async function POST(request: Request) {
     // 4. Append the new recipe object to the existing recipes array
     existingData.recipes.push(newRecipeObject);
 
-    // 5. Write the updated data back to Vercel Blob
+    // 5. Write the updated data back to Vercel Blob using the FILENAME
     await put(BLOB_FILENAME, JSON.stringify(existingData, null, 2), {
         access: 'public', // Set access level ('public' makes it accessible via URL)
         addRandomSuffix: false // Ensure we overwrite the same file
@@ -92,6 +91,7 @@ export async function POST(request: Request) {
     if (error instanceof SyntaxError) {
         return NextResponse.json({ message: 'Failed to parse incoming JSON data' }, { status: 400 });
     }
-    return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });
+    // Add more specific error checks if needed (e.g., for Blob 'put' errors)
+    return NextResponse.json({ message: 'Internal Server Error processing recipe save' }, { status: 500 });
   }
 }
