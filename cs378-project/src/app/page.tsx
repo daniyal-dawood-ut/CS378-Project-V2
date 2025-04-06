@@ -148,7 +148,7 @@ const updateTimer = (stepNumber: number, newTime: number) => {
       )}
       {currentView === "steps" && totalSteps > 0 && (
         <>
-          <h1 className={styles.title}>Hummingbird Muffins</h1>
+          <h1 className={styles.title}>{selectedRecipe}</h1>
           <div className={styles.stepWrapper}>
             <RecipeStep
               stepNumber={currentStepIndex + 1}
