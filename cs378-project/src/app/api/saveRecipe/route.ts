@@ -8,7 +8,7 @@ interface RecipeData {
 }
 
 // Define the path/name for the blob file
-const BLOB_FILENAME = 'demo_recipes.json';
+const BLOB_FILENAME = 'https://ddalzhihftsbuuka.public.blob.vercel-storage.com/demo_recipes.json';
 
 export async function POST(request: Request) {
   try {
