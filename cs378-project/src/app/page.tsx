@@ -6,7 +6,8 @@ import Ingredients from "../components/Ingredients";
 import StartRecipe from "../components/StartRecipe";
 import LandingPage from "../components/LandingPage";
 import styles from "../styles/page.module.css";
-import { head } from "@vercel/blob";
+// Remove head import if no longer needed
+// import { head } from "@vercel/blob";
 
 // Define the interfaces needed (can be moved to a types file)
 interface DemoIngredient {
@@ -37,7 +38,8 @@ interface DemoRecipes {
   recipes: DemoRecipe[];
 }
 
-const BLOB_FILENAME = 'demo_recipes.json';
+// Use the direct Blob URL provided by the user
+const RECIPES_BLOB_URL = 'https://ddalzhihftsbuuka.public.blob.vercel-storage.com/demo_recipes.json';
 
 export default function Home() {
   const [allRecipeData, setAllRecipeData] = useState<DemoRecipes | null>(null);
@@ -49,27 +51,28 @@ export default function Home() {
   const [hasStartedRecipe, setHasStartedRecipe] = useState(false);
   const [selectedRecipe, setSelectedRecipe] = useState<string>("");
 
-  // Fetch data from Blob on component mount
+  // Fetch data from Blob on component mount using the direct URL
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
       setError(null);
       try {
-        const blobMetadata = await head(BLOB_FILENAME);
-        const response = await fetch(blobMetadata.url);
+        // Directly fetch from the provided URL
+        const response = await fetch(RECIPES_BLOB_URL);
         if (!response.ok) {
-          throw new Error(`Failed to fetch recipes: ${response.statusText}`);
+          // Include status text for better error reporting
+          throw new Error(`Failed to fetch recipes (${response.status}): ${response.statusText}`);
         }
         const data: DemoRecipes = await response.json();
         // Basic validation
         if (!data || !Array.isArray(data.recipes)) {
-            throw new Error("Fetched recipe data is invalid.");
+            throw new Error("Fetched recipe data is invalid or not in expected format.");
         }
         setAllRecipeData(data);
       } catch (err) {
-        console.error("Error fetching recipe data from Blob:", err);
-        setError(err instanceof Error ? err.message : "An unknown error occurred");
-        setAllRecipeData({ recipes: [] }); // Set empty data on error to prevent crashes downstream
+        console.error("Error fetching recipe data from Blob URL:", err);
+        setError(err instanceof Error ? err.message : "An unknown error occurred while fetching recipes.");
+        setAllRecipeData({ recipes: [] }); // Set empty data on error
       } finally {
         setIsLoading(false);
       }
@@ -80,7 +83,7 @@ export default function Home() {
 
   // Updated function to use fetched data from state
   const getRecipeSteps = (recipeName: string): DemoStep[] => {
-    if (!allRecipeData) return []; // Return empty if data not loaded
+    if (!allRecipeData) return [];
     const recipe = allRecipeData.recipes.find((r) => r.name === recipeName);
     return recipe ? recipe.steps : [];
   };
