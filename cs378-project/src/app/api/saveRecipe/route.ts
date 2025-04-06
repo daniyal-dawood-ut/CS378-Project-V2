@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs/promises';
-import path from 'path';
+import { put, head } from '@vercel/blob'; // Import blob functions
 
 // Define the structure of the recipe data file
 interface RecipeData {
@@ -8,8 +7,8 @@ interface RecipeData {
   recipes: any[]; // Using 'any' for simplicity, define a stricter type if needed
 }
 
-// Define the path to the user recipes file
-const userRecipesPath = path.join(process.cwd(), 'demo_recipes.json');
+// Define the path/name for the blob file
+const BLOB_FILENAME = 'demo_recipes.json';
 
 export async function POST(request: Request) {
   try {
@@ -39,36 +38,53 @@ export async function POST(request: Request) {
     // Extract the actual recipe object (assuming only one recipe is sent per request)
     const newRecipeObject = newRecipeData.recipes[0];
 
-    // 3. Read the existing user_recipes.json file
+    // 3. Read the existing data from Vercel Blob
     let existingData: RecipeData = { recipes: [] };
     try {
-      const fileContent = await fs.readFile(userRecipesPath, 'utf-8');
-      existingData = JSON.parse(fileContent);
-      // Ensure existingData has the correct structure
-      if (!Array.isArray(existingData.recipes)) {
-          console.warn('user_recipes.json was malformed. Resetting.');
-          existingData = { recipes: [] };
+      // Check if the blob exists first and get its metadata (including URL)
+      const blobMetadata = await head(BLOB_FILENAME); // Throws error if not found
+
+      // If it exists, fetch its content using the URL from metadata
+      const response = await fetch(blobMetadata.url);
+      if (!response.ok) {
+        throw new Error(`Failed to fetch blob content: ${response.statusText}`);
+      }
+      const fileContent = await response.text();
+
+      if (fileContent) {
+          existingData = JSON.parse(fileContent);
+          // Ensure existingData has the correct structure
+          if (!Array.isArray(existingData.recipes)) {
+              console.warn('Blob data was malformed. Resetting.');
+              existingData = { recipes: [] };
+          }
       }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      // If the file doesn't exist (ENOENT), we start with an empty array, which is fine.
-      // Log other errors.
-      if (error.code !== 'ENOENT') {
-        console.error('Error reading user_recipes.json:', error);
-        // Decide if you want to proceed with an empty array or return an error
-        // return NextResponse.json({ message: 'Error reading existing recipes file' }, { status: 500 });
+      // If the blob doesn't exist (head throws a 404-like error), we start with an empty array.
+      // Check if the error indicates 'not found'. The Vercel Blob SDK might throw specific error types,
+      // or you might need to check error properties like status or code if available.
+      // For now, we log a general warning for any error during head/fetch.
+      if (error.status === 404) { // Example check, adjust based on actual error structure
+          console.warn(`Blob ${BLOB_FILENAME} not found. Starting with empty recipes.`);
+      } else {
+          console.error(`Error reading blob ${BLOB_FILENAME}:`, error);
+          // Consider if you should return 500 here or proceed with empty data
       }
-      // If file doesn't exist or is empty/invalid JSON, existingData remains { recipes: [] }
+      // existingData remains { recipes: [] }
     }
 
     // 4. Append the new recipe object to the existing recipes array
     existingData.recipes.push(newRecipeObject);
 
-    // 5. Write the updated data back to user_recipes.json
-    await fs.writeFile(userRecipesPath, JSON.stringify(existingData, null, 2), 'utf-8'); // Pretty print JSON
+    // 5. Write the updated data back to Vercel Blob
+    await put(BLOB_FILENAME, JSON.stringify(existingData, null, 2), {
+        access: 'public', // Set access level ('public' makes it accessible via URL)
+        addRandomSuffix: false // Ensure we overwrite the same file
+    });
 
     // 6. Return a success response
-    return NextResponse.json({ message: 'Recipe saved successfully' }, { status: 200 });
+    return NextResponse.json({ message: 'Recipe saved successfully via Blob' }, { status: 200 });
 
   } catch (error) {
     console.error('Error in /api/saveRecipe:', error);
