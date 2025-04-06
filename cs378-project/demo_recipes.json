@@ -444,6 +444,137 @@
           "helpfulTip": "Cooling on a rack prevents moisture buildup, ensuring your muffins retain their delicate texture."
         }
       ]
+    },
+    {
+      "name": "Penne Arrabbiata",
+      "serving_size": 5,
+      "ingredients": [
+        {
+          "item": "Penne rigate",
+          "quantity": "1 pound",
+          "substitutions": [
+            {
+              "substitution": "Gluten-free penne"
+            },
+            {
+              "substitution": "Whole wheat penne"
+            }
+          ]
+        },
+        {
+          "item": "Olive oil",
+          "quantity": "3 tablespoons",
+          "substitutions": [
+            {
+              "substitution": "Avocado oil"
+            }
+          ]
+        },
+        {
+          "item": "Garlic cloves",
+          "quantity": "3",
+          "substitutions": [
+            {
+              "substitution": "1 teaspoon garlic powder"
+            }
+          ]
+        },
+        {
+          "item": "Crushed red pepper flakes",
+          "quantity": "1/4 teaspoon",
+          "substitutions": [
+            {
+              "substitution": "Fresh chopped chili peppers"
+            },
+            {
+              "substitution": "Red chili powder"
+            }
+          ]
+        },
+        {
+          "item": "Whole peeled tomatoes",
+          "quantity": "28 ounces",
+          "substitutions": [
+            {
+              "substitution": "1 1/2 cups fresh chopped tomatoes"
+            },
+            {
+              "substitution": "Canned diced tomatoes"
+            }
+          ]
+        },
+        {
+          "item": "Tomato paste",
+          "quantity": "2 tablespoons",
+          "substitutions": [
+            {
+              "substitution": "Tomato sauce"
+            }
+          ]
+        },
+        {
+          "item": "Fresh basil leaves",
+          "quantity": "6",
+          "substitutions": [
+            {
+              "substitution": "1 teaspoon dried basil"
+            }
+          ]
+        },
+        {
+          "item": "Freshly grated parmesan cheese",
+          "quantity": "1/2 cup",
+          "substitutions": [
+            {
+              "substitution": "Pecorino cheese"
+            },
+            {
+              "substitution": "Nutritional yeast"
+            }
+          ]
+        },
+        {
+          "item": "Fresh chopped parsley",
+          "quantity": "1/3 cup",
+          "substitutions": [
+            {
+              "substitution": "Fresh chopped cilantro"
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "stepNumber": 1,
+          "totalSteps": 3,
+          "title": "Cook the pasta",
+          "description": "Cook penne pasta in a large pot of boiling water until tender. Drain and set aside.",
+          "imageUrl": "/images/penne_arrabbiata/1.jpg",
+          "timerDuration": 10,
+          "demonstration": "Watch the pasta boil vigorously, stirring occasionally to prevent sticking.",
+          "helpfulTip": "Add a pinch of salt to the boiling water to enhance pasta flavor."
+        },
+        {
+          "stepNumber": 2,
+          "totalSteps": 3,
+          "title": "Prepare the arrabbiata sauce",
+          "description": "In a skillet over medium heat, add olive oil, minced garlic, and crushed red pepper flakes; cook for 30 seconds. Add whole peeled tomatoes and tomato paste, crushing the tomatoes with the back of a spoon. Simmer for 10 minutes, then remove from heat and stir in chopped fresh basil.",
+          "imageUrl": "/images/penne_arrabbiata/2.jpg",
+          "timerDuration": 10,
+          "demonstration": "Observe the sauce as it simmers, thickening and melding the flavors together.",
+          "helpfulTip": "Adjust the amount of red pepper flakes to control the spiciness of the sauce."
+        },
+        {
+          "stepNumber": 3,
+          "totalSteps": 3,
+          "title": "Combine pasta and sauce",
+          "description": "Add the cooked pasta to the skillet with the arrabbiata sauce. Toss to combine and heat through. Serve immediately, garnished with freshly grated parmesan cheese and chopped parsley.",
+          "imageUrl": "/images/penne_arrabbiata/3.jpg",
+          "timerDuration": 5,
+          "demonstration": "Gently toss the pasta and sauce until each piece is evenly coated.",
+          "helpfulTip": "Reserve a bit of pasta cooking water to adjust the sauce consistency if needed."
+        }
+      ]
     }
   ]
 }
