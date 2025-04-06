@@ -4,6 +4,7 @@ import path from 'path';
 
 // Define the structure of the recipe data file
 interface RecipeData {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   recipes: any[]; // Using 'any' for simplicity, define a stricter type if needed
 }
 
@@ -48,6 +49,7 @@ export async function POST(request: Request) {
           console.warn('user_recipes.json was malformed. Resetting.');
           existingData = { recipes: [] };
       }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       // If the file doesn't exist (ENOENT), we start with an empty array, which is fine.
       // Log other errors.

@@ -38,7 +38,7 @@ const RecipeStep: React.FC<RecipeStepProps> = ({
   title,
   description,
   imageUrl,
-  timerDuration = 0,
+  //timerDuration = 0,
   demonstration,
   helpfulTip,
   onNext,
@@ -208,7 +208,12 @@ const RecipeStep: React.FC<RecipeStepProps> = ({
                     className={styles.timerButton} 
                     onClick={(e) => {
                       e.stopPropagation(); // Prevent card flip
-                      timerState.isPaused ? onResumeTimer() : onPauseTimer();
+                      if (timerState.isPaused) {
+                        onResumeTimer();
+                      } else {
+                        onPauseTimer();
+                      }
+                      
                     }}
                   >
                     {timerState.isPaused ? "Resume" : "Pause"}
