@@ -1,7 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import styles from "./Ingredients.module.css";
-import recipeData from "../../demo_recipes.json";
 import { FaRegStar, FaStar } from "react-icons/fa";
 
 // Helper function to format the adjusted number
@@ -147,13 +146,16 @@ interface TransformedData {
 }
 
 interface IngredientsProps {
+  allRecipeData: DemoRecipes;
+  selected: string;
   onContinueToInstructions: () => void;
   onBack: () => void;
-  selected: string;
 }
 
-const transformData = (json: DemoRecipes, selectedRecipe: string): TransformedData | null => {
-  const recipe = json.recipes.find((r) => r.name === selectedRecipe);
+const transformData = (allRecipeData: DemoRecipes | null, selectedRecipe: string): TransformedData | null => {
+  if (!allRecipeData) return null;
+
+  const recipe = allRecipeData.recipes.find((r) => r.name === selectedRecipe);
   if (!recipe) return null;
 
   const baseIngredients = recipe.ingredients.map((item) => {
@@ -186,7 +188,7 @@ const transformData = (json: DemoRecipes, selectedRecipe: string): TransformedDa
   };
 };
 
-const Ingredients: React.FC<IngredientsProps> = ({ onContinueToInstructions, onBack, selected }) => {
+const Ingredients: React.FC<IngredientsProps> = ({ allRecipeData, selected, onContinueToInstructions, onBack }) => {
   const [baseIngredients, setBaseIngredients] = useState<Ingredient[]>([]);
   const [currentIngredients, setCurrentIngredients] = useState<Ingredient[]>([]);
   const [baseServingSize, setBaseServingSize] = useState<number>(1);
@@ -200,49 +202,48 @@ const Ingredients: React.FC<IngredientsProps> = ({ onContinueToInstructions, onB
   });
 
   useEffect(() => {
-    const data = transformData(recipeData as DemoRecipes, selected);
+    const data = transformData(allRecipeData, selected);
     if (data) {
         setBaseIngredients(data.ingredients);
         setCurrentIngredients(data.ingredients);
         setBaseServingSize(data.servingSize);
         setCurrentServingSize(data.servingSize);
         setServingInput(data.servingSize.toString());
+    } else {
+        console.warn(`Recipe "${selected}" not found in provided data.`);
+        setBaseIngredients([]);
+        setCurrentIngredients([]);
     }
-  }, [selected]);
+  }, [allRecipeData, selected]);
 
   useEffect(() => {
-    if (baseIngredients.length === 0) return; // Wait for ingredients to load
+    if (baseIngredients.length === 0) return;
 
-    // Use 1 as minimum divisor to prevent division by zero errors if base is 0
     const safeBaseServingSize = baseServingSize === 0 ? 1 : baseServingSize;
     const ratio = currentServingSize / safeBaseServingSize;
 
     const stripParens = (s: string) => s.startsWith('(') && s.endsWith(')') ? s.slice(1, -1) : s;
-    // Don't add parens if the result is empty or just whitespace
     const addParens = (s: string) => s && s.trim() ? `(${s.trim()})` : "";
 
     setCurrentIngredients(prevIngredients =>
       baseIngredients.map(baseIng => {
-          // Find corresponding previous ingredient to preserve selection/dropdown state
           const prevIng = prevIngredients.find(pi => pi.id === baseIng.id) || baseIng;
-          // Strip parens, adjust, add parens back
           const strippedBaseAmount = stripParens(baseIng.baseAmount);
           const adjustedAmountStr = adjustQuantity(strippedBaseAmount, ratio);
           const finalAmount = addParens(adjustedAmountStr);
 
           return {
-            ...prevIng, // Keep existing states like 'selected', 'showAlternatives'
-            name: baseIng.name, // Ensure name is from base
-            baseAmount: baseIng.baseAmount, // Keep original base amount
-            currentAmount: finalAmount, // Set the new adjusted amount
+            ...prevIng,
+            name: baseIng.name,
+            baseAmount: baseIng.baseAmount,
+            currentAmount: finalAmount,
             alternatives: baseIng.alternatives?.map(baseAlt => {
                 const prevAlt = prevIng.alternatives?.find(pa => pa.id === baseAlt.id) || baseAlt;
-                 // Strip parens, adjust, add parens back for alternatives
                 const strippedAltBaseAmount = stripParens(baseAlt.baseAmount);
                 const adjustedAltAmountStr = adjustQuantity(strippedAltBaseAmount, ratio);
                 const finalAltAmount = addParens(adjustedAltAmountStr);
                 return {
-                    ...prevAlt, // Keep existing states
+                    ...prevAlt,
                     name: baseAlt.name,
                     baseAmount: baseAlt.baseAmount,
                     currentAmount: finalAltAmount,
@@ -251,7 +252,7 @@ const Ingredients: React.FC<IngredientsProps> = ({ onContinueToInstructions, onB
           };
       })
     );
-  }, [currentServingSize, baseServingSize, baseIngredients]); // Dependencies
+  }, [currentServingSize, baseServingSize, baseIngredients]);
 
   const toggleIngredient = (id: string) => {
     setCurrentIngredients((prev) =>

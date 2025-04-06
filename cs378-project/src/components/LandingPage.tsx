@@ -1,35 +1,18 @@
 "use client";
 import { useState } from "react";
 import styles from "./LandingPage.module.css";
-import recipeData from "../../demo_recipes.json";
 import AddRecipeModal from "./AddRecipeModal";
-
-interface LandingPageProps {
-  onSelectRecipe: (recipeName: string) => void;
-}
 
 interface DemoRecipe {
   name: string;
-  ingredients: unknown;
-  steps: unknown;
 }
 
-interface DemoRecipes {
+interface LandingPageProps {
   recipes: DemoRecipe[];
+  onSelectRecipe: (recipeName: string) => void;
 }
 
-interface Recipe {
-  recipeName: string;
-}
-
-const transformData = (json: DemoRecipes): Recipe[] => {
-  return json.recipes.map((r) => ({
-    recipeName: r.name,
-  }));
-};
-
-export default function LandingPage({ onSelectRecipe }: LandingPageProps) {
-  const recipes = transformData(recipeData as DemoRecipes);
+export default function LandingPage({ recipes, onSelectRecipe }: LandingPageProps) {
   const [showModal, setShowModal] = useState(false);
 
   return (
@@ -44,22 +27,26 @@ export default function LandingPage({ onSelectRecipe }: LandingPageProps) {
       {showModal && <AddRecipeModal onClose={() => setShowModal(false)} />}
       <div className={styles.content}>
         {recipes.map((recipe) => {
-          const formattedRecipe = recipe.recipeName.toLowerCase().replace(/\s+/g, "_");
+          const formattedRecipeName = recipe.name.toLowerCase().replace(/\s+/g, "_");
+          const imageUrl = `./images/${formattedRecipeName}/cover_photo.jpg`;
+
           return (
             <button
-              key={recipe.recipeName}
+              key={recipe.name}
               className={styles.button}
-              onClick={() => onSelectRecipe(recipe.recipeName)}
+              onClick={() => onSelectRecipe(recipe.name)}
             >
               <div className={styles.imageWrapper}>
                 <img
-                // NOT GONNA WORK ATM FOR NEW RECIPES BECAUSE WE DONT HAVE COVER IMAGE FOR THEM
-                  src={`./images/${formattedRecipe}/cover_photo.jpg`}
-                  alt={recipe.recipeName}
+                  src={imageUrl}
+                  alt={recipe.name}
                   className={styles.recipeImage}
+                  onError={(e) => {
+                      (e.target as HTMLImageElement).style.display = 'none';
+                  }}
                 />
               </div>
-              <span>{recipe.recipeName}</span>
+              <span>{recipe.name}</span>
             </button>
           );
         })}
